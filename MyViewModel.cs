@@ -9,19 +9,14 @@ using System.Windows.Input;
 
 namespace WPFPlayground
 {
-    public class MyViewModel : INotifyPropertyChanged
+    public class MyViewModel : ViewModelBase
     {
-        // TODO improve boilerplate.
+        /////// Commands
+        public ICommand ChangeText { get; set; }
 
-        protected void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
-            {
-                field = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        public ICommand ChangeColor { get; set; }
 
+        /////// Properties.
         string _color = "LightGreen";
         public string MyColor
         {
@@ -43,122 +38,35 @@ namespace WPFPlayground
             set => SetField(ref _val, value);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public ICommand ChangeText { get; set; }
-        public ICommand ChangeColor { get; set; }
-
         public MyViewModel()
         {
-            // Init command handlers.
-            ChangeText = new ChangeTextCommand { mwv = this };
-            ChangeColor = new ChangeColorCommand { mwv = this };
-        }
-    }
+            /////// Internal fields.
+            int _stringIndex = 0;
+            int _colorIndex = 0;
+            string[] colors = { "LightSalmon", "LightBlue", "Yellow", "LightGreen" };
 
+            ////// Init command handlers.
+            ChangeText = new RelayCommand(
+                p =>
+                {
+                    return true;
+                },
+                p =>
+                {
+                    _stringIndex++;
+                    MyString = "Hey, you Clicked me " + _stringIndex.ToString();
+                });
 
-    public class ChangeColorCommand : ICommand
-    {
-        public MyViewModel mwv;
-        string[] colors = { "LightSalmon", "LightBlue", "LightYellow", "LightGreen" };
-        private int i = 0;
-
-        public bool CanExecute(object parameter)
-        {
-            
-            return true;
-        }
-
-        // Occurs when changes occur that affect whether or not the command should execute.
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public void Execute(object parameter)
-        {
-            mwv.MyColor = colors[i % colors.Count()];
-            i++;
-        }
-    }
-
-    public class ChangeTextCommand : ICommand
-    {
-        public MyViewModel mwv;
-        private int i = 0;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        // Occurs when changes occur that affect whether or not the command should execute.
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public void Execute(object parameter)
-        {
-            i++;
-            mwv.MyString = "Hey, you Clicked me " + i.ToString();
+            ChangeColor = new RelayCommand(
+                p =>
+                {
+                    return true;
+                },
+                p =>
+                {
+                    MyColor = colors[_colorIndex % colors.Count()];
+                    _colorIndex++;
+                });
         }
     }
 }
-
-
-
-
-/*
-
-public class RelayCommand : ICommand
-{
-    private Predicate<object> _canExecute;
-    private Action<object> _execute;
-
-    public RelayCommand(Predicate<object> canExecute, Action<object> execute)
-    {
-        this._canExecute = canExecute;
-        this._execute = execute;
-    }
-
-    public event EventHandler CanExecuteChanged
-    {
-        add { CommandManager.RequerySuggested += value; }
-        remove { CommandManager.RequerySuggested -= value; }
-    }
-
-    public bool CanExecute(object parameter)
-    {
-        return _canExecute(parameter);
-    }
-
-    public void Execute(object parameter)
-    {
-        _execute(parameter);
-    }
-}
-
-This could then be used as...
-
-public class MyViewModel
-{
-    private ICommand _doSomething;
-    public ICommand DoSomethingCommand
-    {
-        get
-        {
-            if (_doSomething == null)
-            {
-                _doSomething = new RelayCommand(
-                    p => this.CanDoSomething,
-                    p => this.DoSomeImportantMethod());
-            }
-            return _doSomething;
-        }
-    }
-}
-
-*/

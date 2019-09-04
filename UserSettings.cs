@@ -7,7 +7,7 @@ using System.Drawing;
 using Newtonsoft.Json;
 using System.Windows.Media;
 using System.Windows;
-using System.Runtime.Serialization.Formatters.Binary;
+
 
 namespace WPFPlayground
 {
