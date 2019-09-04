@@ -22,7 +22,7 @@ namespace WPFPlayground
             }
         }
 
-        string _color = "Green";
+        string _color = "LightGreen";
         public string MyColor
         {
             get => _color;
@@ -46,14 +46,42 @@ namespace WPFPlayground
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand ChangeText { get; set; }
+        public ICommand ChangeColor { get; set; }
 
         public MyViewModel()
         {
             // Init command handlers.
             ChangeText = new ChangeTextCommand { mwv = this };
+            ChangeColor = new ChangeColorCommand { mwv = this };
         }
     }
 
+
+    public class ChangeColorCommand : ICommand
+    {
+        public MyViewModel mwv;
+        string[] colors = { "LightSalmon", "LightBlue", "LightYellow", "LightGreen" };
+        private int i = 0;
+
+        public bool CanExecute(object parameter)
+        {
+            
+            return true;
+        }
+
+        // Occurs when changes occur that affect whether or not the command should execute.
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public void Execute(object parameter)
+        {
+            mwv.MyColor = colors[i % colors.Count()];
+            i++;
+        }
+    }
 
     public class ChangeTextCommand : ICommand
     {
@@ -81,90 +109,9 @@ namespace WPFPlayground
 }
 
 
-/*
-class MainWindowViewModel
-{
-    private ICommand hiButtonCommand;
-
-    private ICommand toggleExecuteCommand { get; set; }
-
-    private bool canExecute = true;
-
-    public string HiButtonContent
-    {
-        get
-        {
-            return "click to hi";
-        }
-    }
-
-    public bool CanExecute
-    {
-        get
-        {
-            return this.canExecute;
-        }
-
-        set
-        {
-            if (this.canExecute == value)
-            {
-                return;
-            }
-
-            this.canExecute = value;
-        }
-    }
-
-    public ICommand ToggleExecuteCommand
-    {
-        get
-        {
-            return toggleExecuteCommand;
-        }
-        set
-        {
-            toggleExecuteCommand = value;
-        }
-    }
-
-    public ICommand HiButtonCommand
-    {
-        get
-        {
-            return hiButtonCommand;
-        }
-        set
-        {
-            hiButtonCommand = value;
-        }
-    }
-
-    public MainWindowViewModel()
-    {
-        HiButtonCommand = new RelayCommand(ShowMessage, param => this.canExecute);
-        toggleExecuteCommand = new RelayCommand(ChangeCanExecute);
-    }
-
-    public void ShowMessage(object obj)
-    {
-        MessageBox.Show(obj.ToString());
-    }
-
-    public void ChangeCanExecute(object obj)
-    {
-        canExecute = !canExecute;
-    }
-}
-*/
 
 
 /*
-<Button x:Name="btnUpdate" Width="100" Height="20" HorizontalAlignment="Center" Grid.Row="1" Content="Update" Command="{Binding Path=UpdateCommand}" CommandParameter="{Binding ElementName=lstPerson, Path=SelectedItem.Address}">  
-</Button> 
-
-
-This is almost identical to how Karl Shifflet demonstrated a RelayCommand, where Execute fires a predetermined Action<T>. A top-notch solution, if you ask me.
 
 public class RelayCommand : ICommand
 {
@@ -193,6 +140,7 @@ public class RelayCommand : ICommand
         _execute(parameter);
     }
 }
+
 This could then be used as...
 
 public class MyViewModel

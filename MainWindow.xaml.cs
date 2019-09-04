@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+
 
 namespace WPFPlayground
 {
@@ -25,102 +29,43 @@ namespace WPFPlayground
     ///   OnRender
     ///   OnRender
     ///   Window_SizeChanged
-    ///   Window_Loaded (Occurs when the element is laid out, rendered, and ready for interaction.)
-    ///   Window_ContentRendered (Occurs after a window's content has been rendered.)
+    ///   Window_Loaded
+    ///   Window_ContentRendered
     /// </summary>
     public partial class MainWindow : Window
     {
-        System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        DispatcherTimer _dispTimer = new DispatcherTimer();
+        UserSettings _settings = null;
+        Random _rand = new Random();
 
+        #region Lifecycle
         public MainWindow()
         {
             InitializeComponent();
             AddInfoLine($"MainWindow constructor");
 
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            dispatcherTimer.Start();
-        }
+            _settings = UserSettings.Load(@"..\..\settings.json");
 
+            Left = _settings.MainWindowInfo.X;
+            Top = _settings.MainWindowInfo.Y;
+            Width = _settings.MainWindowInfo.Width;
+            Height = _settings.MainWindowInfo.Height;
 
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            myCanvas.Children.Clear();
-            DrawStuff();
-        }
-
-        int _loc = 10;
-        private void DrawStuff()
-        {
-            Rectangle aRectangle = new Rectangle();
-            aRectangle.Width = 100;
-            aRectangle.Height = 50;
-            aRectangle.Stroke = Brushes.Red;
-            Canvas.SetLeft(aRectangle, _loc);
-            Canvas.SetTop(aRectangle, _loc);
-            myCanvas.Children.Add(aRectangle);
-            _loc++;
-
-
-            //Line line = new Line();
-            //Thickness thickness = new Thickness(101, -11, 362, 250);
-            //line.Margin = thickness;
-            //line.Visibility = System.Windows.Visibility.Visible;
-            //line.StrokeThickness = 4;
-            //line.Stroke = System.Windows.Media.Brushes.Black;
-            //line.X1 = 10;
-            //line.X2 = 40;
-            //line.Y1 = 70;
-            //line.Y2 = 70;
-            //myCanvas.Children.Add(line);
-
-
-            //QuadraticBezierSegment qbs = new QuadraticBezierSegment(new Point(X2, Y1), new Point(X2, Y2), true);
-            //PathSegmentCollection pscollection = new PathSegmentCollection();
-            //pscollection.Add(qbs);
-            //PathFigure pf = new PathFigure();
-            //pf.Segments = pscollection;
-            //pf.StartPoint = new Point(X1, Y1);
-            //PathFigureCollection pfcollection = new PathFigureCollection();
-            //pfcollection.Add(pf);
-            //PathGeometry pathGeometry = new PathGeometry();
-            //pathGeometry.Figures = pfcollection;
-            //Path path = new Path();
-            //path.Data = pathGeometry;
-            //path.Stroke = new SolidColorBrush(color);
-            //path.StrokeThickness = 2;
-            //Canvas.SetZIndex(path, (int)Layer.Line);
-            //canvas.Children.Add(path);
-            //return pathGeometry;
-        }
-
-
-        private void OnUiReady(object sender, EventArgs e)
-        {
-            AddInfoLine($"N/A? OnUiReady");
-            //LinePane.Width = ((StackPanel)LinePane.Parent).ActualWidth;
-            //LinePane.Height = ((StackPanel)LinePane.Parent).ActualHeight;
-            //DesignerPane.MouseLeave += DesignerPane_MouseLeave;
-            //SizeChanged += Window1_SizeChanged;
-        }
-
-        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
-        {
-            AddInfoLine($"OnRender");
-            base.OnRender(drawingContext);
-            //Rect rect = new Rect(new System.Windows.Point(50, 50), new System.Windows.Size(200, 100));
-            //drawingContext.DrawRectangle(System.Windows.Media.Brushes.Aqua, (System.Windows.Media.Pen)null, rect);
+            _dispTimer.Tick += new EventHandler(DispatcherTimer_Tick);
+            _dispTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            _dispTimer.Start();
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
             AddInfoLine($"Window_Initialized");
-
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AddInfoLine($"Window_SizeChanged");
+
+            _settings.MainWindowInfo.FromWindow(this);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -133,7 +78,46 @@ namespace WPFPlayground
             AddInfoLine($"Window_ContentRendered");
         }
 
-        private void ellipse1_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _settings.Save();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
+        {
+            AddInfoLine($"OnRender");
+            base.OnRender(drawingContext);
+            // Could draw stuff like GDI here. But shouldn't.
+        }
+        #endregion
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            //myCanvas.Children.Clear();
+            DrawStuff();
+        }
+
+        private void DrawStuff()
+        {
+            Rectangle rect = new Rectangle
+            {
+                Width = 100,
+                Height = 50,
+                Stroke = Brushes.Red,
+                StrokeThickness = 5
+            };
+
+            Canvas.SetLeft(rect, _rand.Next(10, (int)myCanvas.ActualWidth - 120));
+            Canvas.SetTop(rect, _rand.Next(10, (int)myCanvas.ActualHeight - 60));
+            myCanvas.Children.Add(rect);
+        }
+
+        private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MyViewModel vm = DataContext as MyViewModel;
 
@@ -145,24 +129,23 @@ namespace WPFPlayground
             }
         }
 
-        private void ShowEditor()
-        {
-            var editor = new Editor { Owner = this };
-
-            editor.SetPropertiesFromObject(textBox);
-            editor.PreviewSampleText = textBox.SelectedText;
-
-            var dlg = editor.ShowDialog();
-            if (dlg != null && dlg.Value)
-            {
-//                editor.ApplyPropertiesToObject(textBox);
-            }
-        }
-
         void AddInfoLine(string s)
         {
             infobox.AppendText($"{s}{Environment.NewLine}");
             infobox.ScrollToEnd();
+        }
+
+        private void OnSettingsClicked(object sender, RoutedEventArgs e)
+        {
+            var dlg = new Editor { Owner = this, Settings = _settings };
+
+            if (dlg.ShowDialog().Value)
+            {
+                // Changes made - apply.
+
+                _settings = dlg.Settings;
+                _settings.Save();
+            }
         }
     }
 }
