@@ -75,8 +75,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers.cs" />
+    <Compile Include="Animation.cs" />
+    <Compile Include="ModelViewHelpers.cs" />
+    <Compile Include="MyVisualHost.cs" />
     <Compile Include="UserSettings.cs" />
+    <Compile Include="Utils.cs" />
     <Page Include="Editor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

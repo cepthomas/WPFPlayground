@@ -27,16 +27,19 @@ namespace WPFPlayground
     ///   Window_Initialized
     ///   MainWindow
     ///   OnRender
-    ///   OnRender
     ///   Window_SizeChanged
     ///   Window_Loaded
     ///   Window_ContentRendered
     /// </summary>
     public partial class MainWindow : Window
     {
-        DispatcherTimer _dispTimer = new DispatcherTimer();
+        DispatcherTimer _slowTimer = new DispatcherTimer();
+        DispatcherTimer _fastTimer = new DispatcherTimer();
         UserSettings _settings = null;
         Random _rand = new Random();
+
+        MyVisualHostDynamic _vhd = new MyVisualHostDynamic();
+
 
         #region Lifecycle
         public MainWindow()
@@ -51,9 +54,19 @@ namespace WPFPlayground
             Width = _settings.MainWindowInfo.Width;
             Height = _settings.MainWindowInfo.Height;
 
-            _dispTimer.Tick += new EventHandler(DispatcherTimer_Tick);
-            _dispTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            _dispTimer.Start();
+            _slowTimer.Tick += new EventHandler(SlowTimer_Tick);
+            _slowTimer.Interval = TimeSpan.FromSeconds(1.0);
+            _slowTimer.Start();
+
+            _fastTimer.Tick += new EventHandler(FastTimer_Tick);
+            _fastTimer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
+            _fastTimer.Start();
+
+            // Raw drawing.
+            var vhs = new MyVisualHostStatic();
+            myCanvasDrawingStatic.Children.Add(vhs);
+
+            myCanvasDrawingDynamic.Children.Add(_vhd);
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -88,7 +101,7 @@ namespace WPFPlayground
 
         }
 
-        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
+        protected override void OnRender(DrawingContext drawingContext)
         {
             AddInfoLine($"OnRender");
             base.OnRender(drawingContext);
@@ -96,25 +109,29 @@ namespace WPFPlayground
         }
         #endregion
 
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
+
+        private void FastTimer_Tick(object sender, EventArgs e)
         {
-            //myCanvas.Children.Clear();
-            DrawStuff();
+            _vhd.Update();
         }
 
-        private void DrawStuff()
+        private void SlowTimer_Tick(object sender, EventArgs e)
         {
+            //myCanvasShape.Children.Clear();
+
+            Color clr = Color.FromRgb((byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255));
+
             Rectangle rect = new Rectangle
             {
                 Width = 100,
                 Height = 50,
-                Stroke = Brushes.Red,
+                Stroke = new SolidColorBrush(clr),
                 StrokeThickness = 5
             };
 
-            Canvas.SetLeft(rect, _rand.Next(10, (int)myCanvas.ActualWidth - 120));
-            Canvas.SetTop(rect, _rand.Next(10, (int)myCanvas.ActualHeight - 60));
-            myCanvas.Children.Add(rect);
+            Canvas.SetLeft(rect, _rand.Next(10, (int)myCanvasShape.ActualWidth - 120));
+            Canvas.SetTop(rect, _rand.Next(10, (int)myCanvasShape.ActualHeight - 60));
+            myCanvasShape.Children.Add(rect);
         }
 
         private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)

@@ -1,0 +1,92 @@
+
+Canvas uses Shapes.
+VisualHost : FrameworkElement holds Drawing objects.
+
+
+WPF provides both Drawing and Shape objects to represent graphical drawing content. However, Drawing objects are simpler constructs than Shape objects and provide better performance characteristics.
+
+A Shape allows you to draw a graphical shape to the screen. Because they are derived from the FrameworkElement class, Shape objects can be used inside panels and most controls.
+
+WPF offers several layers of access to graphics and rendering services. At the top layer, Shape objects are easy to use and provide many useful features, such as layout and event handling. WPF provides a number of ready-to-use shape objects. All shape objects inherit from the Shape class. Available shape objects include Ellipse, Line, Path, Polygon, Polyline, and Rectangle.
+
+Drawing objects, on the other hand, do not derive from the FrameworkElement class and provide a lighter-weight implementation for rendering shapes, images, and text.
+
+There are four types of Drawing objects:
+GeometryDrawing Draws a shape.
+ImageDrawing Draws an image.
+GlyphRunDrawing Draws text.
+DrawingGroup Draws other drawings. Use a drawing group to combine other drawings into a single composite drawing.
+
+Since Shape objects derive from the FrameworkElement class, using them can add significantly more memory consumption in your application. If you really do not need the FrameworkElement features for your graphical content, consider using the lighter-weight Drawing objects.
+
+The StreamGeometry object is a lightweight alternative to PathGeometry for creating geometric shapes. Use a StreamGeometry when you need to describe a complex geometry. StreamGeometry is optimized for handling many PathGeometry objects and performs better when compared to using many individual PathGeometry objects.
+
+The DrawingVisual object is a lightweight drawing class that is used to render shapes, images, or text. This class is considered lightweight because it does not provide layout or event handling, which improves its performance. 
+
+
+-------------------------------------------------------------------
+
+One way to do custom drawings in WPF is to create a class that inherits from UIElement and then to override the OnRender method. In this method you will have access to a DrawingContext which will allow you to call basic drawing methods which are in many ways similar to the methods in GDI+.
+
+Otherwise you probably want to create Visuals or higher level objects and put them on a Canvas. This will be slower but then you can take better advantage of WPF features such as animations and data binding.
+
+EDIT: Here is a codeproject article series describing how to create a Diagram Designer in WPF:
+
+http://www.codeproject.com/KB/WPF/WPFDiagramDesigner_Part1.aspx
+
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+
+
+// Create a DrawingVisual that contains a rectangle.
+private DrawingVisual CreateDrawingVisualRectangle()
+{
+    DrawingVisual drawingVisual = new DrawingVisual();
+
+    // Retrieve the DrawingContext in order to create new drawing content.
+    DrawingContext drawingContext = drawingVisual.RenderOpen();
+
+    // Create a rectangle and draw it in the DrawingContext.
+    Rect rect = new Rect(new System.Windows.Point(160, 100), new System.Windows.Size(320, 80));
+    drawingContext.DrawRectangle(System.Windows.Media.Brushes.LightBlue, (System.Windows.Media.Pen)null, rect);
+
+    // Persist the drawing content.
+    drawingContext.Close();
+
+    return drawingVisual;
+}
+
+-------------------------------------------------------------------
+
+    <Window.Resources>
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Style.Triggers>
+                <Trigger Property="Selector.IsSelected" Value="True">
+                    <Setter Property="Background" Value="Moccasin" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate x:Key="groupingHeaderTemplate">
+            <TextBlock Text="{Binding Path=Name}"
+                       Foreground="Navy" FontWeight="Bold" FontSize="12"/>
+        </DataTemplate>
+
+        <Style x:Key="checkBoxStyle" TargetType="{x:Type CheckBox}">
+            <Setter Property="Foreground" Value="#333333" />
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <CollectionViewSource 
+              Source="{Binding Source={x:Static Application.Current}, Path=AuctionItems}"   
+              x:Key="listingDataView" />
+
+    </Window.Resources>
+
+-------------------------------------------------------------------
+
+A programmatic way to determine whether a dependency property binds one-way or two-way by default is to get the property metadata of the property using GetMetadata and then check the Boolean value of the BindsTwoWayByDefault property.
+
+Note that to detect source changes (applicable to OneWay and TwoWay bindings), the source must implement a suitable property change notification mechanism such as INotifyPropertyChanged. See Implement Property Change Notification for an example of an INotifyPropertyChanged implementation.

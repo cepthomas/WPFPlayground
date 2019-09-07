@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace WPFPlayground
 {
-    ////// Common stuff MV.
+    ////// Common stuff for MV.
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
