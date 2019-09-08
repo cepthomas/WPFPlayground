@@ -23,18 +23,18 @@ namespace WPFPlayground
     public partial class Fun3D : Window
     {
         // The main model group.
-        private Model3DGroup MainGroup = null;
+        private Model3DGroup _group = null;
 
         // The robot's Model3DGroups.
-        private Model3DGroup RobotGroup, HeadGroup, NeckGroup, ShoulderGroup,
-            LuArmGroup, RuArmGroup, LlArmGroup, RlArmGroup, BackGroup,
-            LuLegGroup, RuLegGroup, LlLegGroup, RlLegGroup;
+        private Model3DGroup _groupRobot, _groupHead, _groupNeck, _groupShoulder,
+            _groupLeftUpperArm, _groupRightUpperArm, _groupLeftLowerArm, _groupRightLowerArm, _groupBack,
+            _groupLeftUpperLeg, _groupRightUpperLeg, _groupLeftLowerLeg, _groupRightLowerLeg;
 
         // The camera.
-        private PerspectiveCamera TheCamera = null;
+        private PerspectiveCamera _camera = null;
 
         // The camera controller.
-        private SphericalCameraController CameraController = null;
+        private SphericalCameraController _cameraController = null;
 
         public Fun3D()
         {
@@ -45,35 +45,39 @@ namespace WPFPlayground
         {
             // Define WPF objects.
             ModelVisual3D visual3d = new ModelVisual3D();
-            MainGroup = new Model3DGroup();
-            visual3d.Content = MainGroup;
+            _group = new Model3DGroup();
+            visual3d.Content = _group;
             mainViewport.Children.Add(visual3d);
 
             // Define the camera.
-            TheCamera = new PerspectiveCamera
-            {
-                FieldOfView = 60
-            };
-            CameraController = new SphericalCameraController(TheCamera, mainViewport, this, mainGrid, mainGrid);
-            // Move back a bit from the origin.
-            Point3D coords = CameraController.SphericalCoordinates;
-            coords.X = 20;
-            CameraController.SphericalCoordinates = coords;
+            _camera = new PerspectiveCamera { FieldOfView = 60 };
+            _cameraController = new SphericalCameraController(_camera, mainViewport, this, mainGrid, mainGrid);
 
             // Define the lights.
             Color darker = Color.FromArgb(255, 96, 96, 96);
             Color dark = Color.FromArgb(255, 128, 128, 128);
-            MainGroup.Children.Add(new AmbientLight(darker));
-            MainGroup.Children.Add(new DirectionalLight(dark, new Vector3D(0, -1, 0)));
-            MainGroup.Children.Add(new DirectionalLight(dark, new Vector3D(1, -3, -2)));
-            MainGroup.Children.Add(new DirectionalLight(dark, new Vector3D(-1, 3, 2)));
+            //Color red = Color.FromArgb(255, 255, 0, 0);
+            _group.Children.Add(new AmbientLight(darker));
+            _group.Children.Add(new DirectionalLight(dark, new Vector3D(0, -1, 0)));
+            _group.Children.Add(new DirectionalLight(dark, new Vector3D(1, -3, -2)));
+            _group.Children.Add(new DirectionalLight(dark, new Vector3D(-1, 3, 2)));
 
             // Define the model.
-            DefineModel();
+            {
+                // Move back a bit from the origin.
+                Point3D coords = _cameraController.SphericalCoordinates;
+                coords.X = 20;
+                _cameraController.SphericalCoordinates = coords;
+                DefineModelRobot();
+            }
+
+            //{
+            //    DefineModelGarden();
+            //}
         }
 
         // Define the model.
-        private void DefineModel()
+        private void DefineModelRobot()
         {
             // Axes.
             //MainGroup.Children.Add(MeshExtensions.XAxisModel(5, 0.1));
@@ -86,8 +90,8 @@ namespace WPFPlayground
             MakeGround(groundY);
 
             // This group represents the whole robot.
-            RobotGroup = new Model3DGroup();
-            MainGroup.Children.Add(RobotGroup);
+            ////RobotGroup = new Model3DGroup();
+            ////_group.Children.Add(RobotGroup);
 
             // Various robot dimensions.
             const double headR = 1.5;           // Head radius.
@@ -106,9 +110,9 @@ namespace WPFPlayground
             Brush boneBrush = Brushes.PowderBlue;
 
             // This group represents the whole robot.
-            RobotGroup = new Model3DGroup();
-            MainGroup.Children.Add(RobotGroup);
-            RobotGroup.Transform = new TranslateTransform3D(0, headY + groundY, 0);
+            _groupRobot = new Model3DGroup();
+            _group.Children.Add(_groupRobot);
+            _groupRobot.Transform = new TranslateTransform3D(0, headY + groundY, 0);
 
             // Head.
             // Skull.
@@ -154,11 +158,11 @@ namespace WPFPlayground
             GeometryModel3D hatModel = hatMesh.MakeModel(Brushes.SaddleBrown);
 
             // Head groups.
-            HeadGroup = JoinBones(RobotGroup, null);
-            HeadGroup.Children.Add(skullModel);
-            HeadGroup.Children.Add(noseModel);
-            HeadGroup.Children.Add(eyeModel);
-            HeadGroup.Children.Add(hatModel);
+            _groupHead = JoinBones(_groupRobot, null);
+            _groupHead.Children.Add(skullModel);
+            _groupHead.Children.Add(noseModel);
+            _groupHead.Children.Add(eyeModel);
+            _groupHead.Children.Add(hatModel);
 
             // Neck.
             MeshGeometry3D neckMesh = new MeshGeometry3D();
@@ -166,8 +170,8 @@ namespace WPFPlayground
             neckMesh.AddCylinder(neckPgon, D3.YVector(-neckLen), true);
             GeometryModel3D neckModel = neckMesh.MakeModel(boneBrush);
 
-            NeckGroup = JoinBones(HeadGroup, new TranslateTransform3D(0, -headR, 0));
-            NeckGroup.Children.Add(neckModel);
+            _groupNeck = JoinBones(_groupHead, new TranslateTransform3D(0, -headR, 0));
+            _groupNeck.Children.Add(neckModel);
 
             // Shoulders.
             MeshGeometry3D shoulderMesh = new MeshGeometry3D();
@@ -175,8 +179,8 @@ namespace WPFPlayground
             shoulderMesh.AddCylinder(shouldersPgon, D3.XVector(shouW), true);
             GeometryModel3D shoulderModel = shoulderMesh.MakeModel(boneBrush);
 
-            ShoulderGroup = JoinBones(NeckGroup, new TranslateTransform3D(0, -neckLen, 0));
-            ShoulderGroup.Children.Add(shoulderModel);
+            _groupShoulder = JoinBones(_groupNeck, new TranslateTransform3D(0, -neckLen, 0));
+            _groupShoulder.Children.Add(shoulderModel);
 
             // Left upper arm.
             MeshGeometry3D luArmMesh = new MeshGeometry3D();
@@ -184,8 +188,8 @@ namespace WPFPlayground
             luArmMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D luArmModel = luArmMesh.MakeModel(boneBrush);
 
-            LuArmGroup = JoinBones(ShoulderGroup, new TranslateTransform3D(shouW / 2, 0, 0));
-            LuArmGroup.Children.Add(luArmModel);
+            _groupLeftUpperArm = JoinBones(_groupShoulder, new TranslateTransform3D(shouW / 2, 0, 0));
+            _groupLeftUpperArm.Children.Add(luArmModel);
 
             // Right upper arm.
             MeshGeometry3D ruArmMesh = new MeshGeometry3D();
@@ -193,8 +197,8 @@ namespace WPFPlayground
             ruArmMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D ruArmModel = ruArmMesh.MakeModel(boneBrush);
 
-            RuArmGroup = JoinBones(ShoulderGroup, new TranslateTransform3D(-shouW / 2, 0, 0));
-            RuArmGroup.Children.Add(ruArmModel);
+            _groupRightUpperArm = JoinBones(_groupShoulder, new TranslateTransform3D(-shouW / 2, 0, 0));
+            _groupRightUpperArm.Children.Add(ruArmModel);
 
             // Left lower arm.
             MeshGeometry3D llArmMesh = new MeshGeometry3D();
@@ -202,8 +206,8 @@ namespace WPFPlayground
             llArmMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D llArmModel = llArmMesh.MakeModel(boneBrush);
 
-            LlArmGroup = JoinBones(LuArmGroup, new TranslateTransform3D(0, -uaLen, 0));
-            LlArmGroup.Children.Add(llArmModel);
+            _groupLeftLowerArm = JoinBones(_groupLeftUpperArm, new TranslateTransform3D(0, -uaLen, 0));
+            _groupLeftLowerArm.Children.Add(llArmModel);
 
             // Right lower arm.
             MeshGeometry3D rlArmMesh = new MeshGeometry3D();
@@ -211,8 +215,8 @@ namespace WPFPlayground
             rlArmMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D rlArmModel = rlArmMesh.MakeModel(boneBrush);
 
-            RlArmGroup = JoinBones(RuArmGroup, new TranslateTransform3D(0, -uaLen, 0));
-            RlArmGroup.Children.Add(rlArmModel);
+            _groupRightLowerArm = JoinBones(_groupRightUpperArm, new TranslateTransform3D(0, -uaLen, 0));
+            _groupRightLowerArm.Children.Add(rlArmModel);
 
             // Back and hips.
             MeshGeometry3D backMesh = new MeshGeometry3D();
@@ -224,9 +228,9 @@ namespace WPFPlayground
             hipsMesh.AddCylinder(hipsPgon, D3.XVector(hipsW), true);
             GeometryModel3D hipsModel = hipsMesh.MakeModel(boneBrush);
 
-            BackGroup = JoinBones(NeckGroup, new TranslateTransform3D(0, -neckLen, 0));
-            BackGroup.Children.Add(backModel);
-            BackGroup.Children.Add(hipsModel);
+            _groupBack = JoinBones(_groupNeck, new TranslateTransform3D(0, -neckLen, 0));
+            _groupBack.Children.Add(backModel);
+            _groupBack.Children.Add(hipsModel);
 
             // Left upper leg.
             MeshGeometry3D luLegMesh = new MeshGeometry3D();
@@ -234,8 +238,8 @@ namespace WPFPlayground
             luLegMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D luLegModel = luLegMesh.MakeModel(boneBrush);
 
-            LuLegGroup = JoinBones(BackGroup, new TranslateTransform3D(-hipsW / 2, -backLen, 0));
-            LuLegGroup.Children.Add(luLegModel);
+            _groupLeftUpperLeg = JoinBones(_groupBack, new TranslateTransform3D(-hipsW / 2, -backLen, 0));
+            _groupLeftUpperLeg.Children.Add(luLegModel);
 
             // Right upper leg.
             MeshGeometry3D ruLegMesh = new MeshGeometry3D();
@@ -243,8 +247,8 @@ namespace WPFPlayground
             ruLegMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D ruLegModel = ruLegMesh.MakeModel(boneBrush);
 
-            RuLegGroup = JoinBones(BackGroup, new TranslateTransform3D(hipsW / 2, -backLen, 0));
-            RuLegGroup.Children.Add(ruLegModel);
+            _groupRightUpperLeg = JoinBones(_groupBack, new TranslateTransform3D(hipsW / 2, -backLen, 0));
+            _groupRightUpperLeg.Children.Add(ruLegModel);
 
             // Left lower leg.
             MeshGeometry3D llLegMesh = new MeshGeometry3D();
@@ -252,8 +256,8 @@ namespace WPFPlayground
             llLegMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D llLegModel = llLegMesh.MakeModel(boneBrush);
 
-            LlLegGroup = JoinBones(LuLegGroup, new TranslateTransform3D(0, -ulLen, 0));
-            LlLegGroup.Children.Add(llLegModel);
+            _groupLeftLowerLeg = JoinBones(_groupLeftUpperLeg, new TranslateTransform3D(0, -ulLen, 0));
+            _groupLeftLowerLeg.Children.Add(llLegModel);
 
             // Right lower leg.
             MeshGeometry3D rlLegMesh = new MeshGeometry3D();
@@ -261,8 +265,8 @@ namespace WPFPlayground
             rlLegMesh.AddSphere(D3.Origin, jointR, 10, 5, true);
             GeometryModel3D rlLegModel = rlLegMesh.MakeModel(boneBrush);
 
-            RlLegGroup = JoinBones(RuLegGroup, new TranslateTransform3D(0, -ulLen, 0));
-            RlLegGroup.Children.Add(rlLegModel);
+            _groupRightLowerLeg = JoinBones(_groupRightUpperLeg, new TranslateTransform3D(0, -ulLen, 0));
+            _groupRightLowerLeg.Children.Add(rlLegModel);
         }
 
         // Join two bones together.
@@ -333,52 +337,52 @@ namespace WPFPlayground
             groundMesh.AddBox(corner, D3.XVector(dx), D3.YVector(dy), D3.ZVector(dz),
                 frontCoords, leftCoords, rightCoords, backCoords, topCoords, bottomCoords);
 
-            MainGroup.Children.Add(groundMesh.MakeModel(@"Resources\rock.jpg"));
+            _group.Children.Add(groundMesh.MakeModel(@"Resources\rock.jpg"));
         }
 
         private void neckSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            NeckGroup.Transform = D3.Rotate(D3.YVector(), D3.Origin, neckSlider.Value);
+            _groupNeck.Transform = D3.Rotate(D3.YVector(), D3.Origin, neckSlider.Value);
         }
 
         private void leftShoulderSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            LuArmGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftShoulderSlider.Value);
+            _groupLeftUpperArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftShoulderSlider.Value);
         }
 
         private void rightShoulderSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            RuArmGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightShoulderSlider.Value);
+            _groupRightUpperArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightShoulderSlider.Value);
         }
 
         private void leftElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            LlArmGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftElbowSlider.Value);
+            _groupLeftLowerArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftElbowSlider.Value);
         }
 
         private void rightElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            RlArmGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightElbowSlider.Value);
+            _groupRightLowerArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightElbowSlider.Value);
         }
 
         private void leftHipSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            LuLegGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftHipSlider.Value);
+            _groupLeftUpperLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftHipSlider.Value);
         }
 
         private void rightHipSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            RuLegGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightHipSlider.Value);
+            _groupRightUpperLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightHipSlider.Value);
         }
 
         private void leftKneeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            LlLegGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftKneeSlider.Value);
+            _groupLeftLowerLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftKneeSlider.Value);
         }
 
         private void rightKneeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            RlLegGroup.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightKneeSlider.Value);
+            _groupRightLowerLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightKneeSlider.Value);
         }
 
         // Convert from spherical to Cartesian coordinates.
@@ -389,6 +393,213 @@ namespace WPFPlayground
             double x = h * Math.Sin(theta);
             double z = h * Math.Cos(theta);
             return new Point3D(x, y, z);
+        }
+
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+
+        // Define the model.
+        private void DefineModelGarden()
+        {
+            // Rock sections.
+            MeshGeometry3D rockMesh = new MeshGeometry3D();
+            AddRectangle(rockMesh,
+                new Point3D(-3, 0, -1),
+                new Point3D(-3, 0, +1),
+                new Point3D(-1, 0, +1),
+                new Point3D(-1, 0, -1));
+            AddRectangle(rockMesh,
+                new Point3D(+1, 0, -1),
+                new Point3D(+1, 0, +1),
+                new Point3D(+3, 0, +1),
+                new Point3D(+3, 0, -1));
+            AddRectangle(rockMesh,
+                new Point3D(-1, 0, +1),
+                new Point3D(-1, 0, +3),
+                new Point3D(+1, 0, +3),
+                new Point3D(+1, 0, +1));
+
+            ImageBrush rockBrush = new ImageBrush();
+            rockBrush.ImageSource = new BitmapImage(new Uri(@"Resources\rocks.jpg", UriKind.Relative));
+            Material rockMaterial = new DiffuseMaterial(rockBrush);
+            GeometryModel3D rockModel = new GeometryModel3D(rockMesh, rockMaterial);
+            _group.Children.Add(rockModel);
+
+            // Grass sections.
+            MeshGeometry3D grassMesh = new MeshGeometry3D();
+            AddRectangle(grassMesh,
+                new Point3D(-3, 0, -3),
+                new Point3D(-3, 0, -1),
+                new Point3D(-1, 0, -1),
+                new Point3D(-1, 0, -3));
+            AddRectangle(grassMesh,
+                new Point3D(-3, 0, +1),
+                new Point3D(-3, 0, +3),
+                new Point3D(-1, 0, +3),
+                new Point3D(-1, 0, +1));
+            AddRectangle(grassMesh,
+                new Point3D(+1, 0, -3),
+                new Point3D(+1, 0, -1),
+                new Point3D(+3, 0, -1),
+                new Point3D(+3, 0, -3));
+            AddRectangle(grassMesh,
+                new Point3D(+1, 0, +1),
+                new Point3D(+1, 0, +3),
+                new Point3D(+3, 0, +3),
+                new Point3D(+3, 0, +1));
+
+            ImageBrush grassBrush = new ImageBrush();
+            grassBrush.ImageSource = new BitmapImage(new Uri(@"Resources\grass.jpg", UriKind.Relative));
+            Material grassMaterial = new DiffuseMaterial(grassBrush);
+            GeometryModel3D grassModel = new GeometryModel3D(grassMesh, grassMaterial);
+            _group.Children.Add(grassModel);
+
+            // Water.
+            MeshGeometry3D waterMesh = new MeshGeometry3D();
+            AddRectangle(waterMesh,
+                new Point3D(-1, 0, -1),
+                new Point3D(-1, 0, +1),
+                new Point3D(+1, 0, +1),
+                new Point3D(+1, 0, -1));
+            ImageBrush waterBrush = new ImageBrush();
+            waterBrush.ImageSource = new BitmapImage(new Uri(@"Resources\water.jpg", UriKind.Relative));
+            Material waterMaterial = new DiffuseMaterial(waterBrush);
+            GeometryModel3D waterModel = new GeometryModel3D(waterMesh, waterMaterial);
+            _group.Children.Add(waterModel);
+
+            // Cube brick face.
+            MeshGeometry3D brickMesh = new MeshGeometry3D();
+            AddRectangle(brickMesh,
+                new Point3D(-1, 2, -1),
+                new Point3D(-1, 0, -1),
+                new Point3D(+1, 0, -1),
+                new Point3D(+1, 2, -1));
+            ImageBrush brickBrush = new ImageBrush();
+            brickBrush.ImageSource = new BitmapImage(new Uri(@"Resources\bricks.jpg", UriKind.Relative));
+            Material brickMaterial = new DiffuseMaterial(brickBrush);
+            GeometryModel3D brickModel = new GeometryModel3D(brickMesh, brickMaterial);
+            _group.Children.Add(brickModel);
+
+            // Cube metal face.
+            MeshGeometry3D metalMesh = new MeshGeometry3D();
+            AddRectangle(metalMesh,
+                new Point3D(+1, 2, -1),
+                new Point3D(+1, 0, -1),
+                new Point3D(+1, 0, -3),
+                new Point3D(+1, 2, -3));
+            ImageBrush metalBrush = new ImageBrush();
+            metalBrush.ImageSource = new BitmapImage(new Uri(@"Resources\metal.jpg", UriKind.Relative));
+            Material metalMaterial = new DiffuseMaterial(metalBrush);
+            GeometryModel3D metalModel = new GeometryModel3D(metalMesh, metalMaterial);
+            _group.Children.Add(metalModel);
+
+            // Cube wood face.
+            MeshGeometry3D woodMesh = new MeshGeometry3D();
+            AddRectangle(woodMesh,
+                new Point3D(-1, 2, -3),
+                new Point3D(-1, 2, -1),
+                new Point3D(+1, 2, -1),
+                new Point3D(+1, 2, -3));
+            ImageBrush woodBrush = new ImageBrush();
+            woodBrush.ImageSource = new BitmapImage(new Uri(@"Resources\wood.jpg", UriKind.Relative));
+            Material woodMaterial = new DiffuseMaterial(woodBrush);
+            GeometryModel3D woodModel = new GeometryModel3D(woodMesh, woodMaterial);
+            _group.Children.Add(woodModel);
+
+            // Cube fire face.
+            MeshGeometry3D fireMesh = new MeshGeometry3D();
+            AddRectangle(fireMesh,
+                new Point3D(-1, 2, -3),
+                new Point3D(-1, 0, -3),
+                new Point3D(-1, 0, -1),
+                new Point3D(-1, 2, -1));
+            ImageBrush fireBrush = new ImageBrush();
+            fireBrush.ImageSource = new BitmapImage(new Uri(@"Resources\fire.jpg", UriKind.Relative));
+            Material fireMaterial = new DiffuseMaterial(fireBrush);
+            GeometryModel3D fireModel = new GeometryModel3D(fireMesh, fireMaterial);
+            _group.Children.Add(fireModel);
+
+            // Cube cloth face.
+            MeshGeometry3D clothMesh = new MeshGeometry3D();
+            AddRectangle(clothMesh,
+                new Point3D(+1, 2, -3),
+                new Point3D(+1, 0, -3),
+                new Point3D(-1, 0, -3),
+                new Point3D(-1, 2, -3));
+            ImageBrush clothBrush = new ImageBrush();
+            clothBrush.ImageSource = new BitmapImage(new Uri(@"Resources\cloth.jpg", UriKind.Relative));
+            Material clothMaterial = new DiffuseMaterial(clothBrush);
+            GeometryModel3D clothModel = new GeometryModel3D(clothMesh, clothMaterial);
+            _group.Children.Add(clothModel);
+
+            // Skybox meshes.
+            MeshGeometry3D sky1Mesh = new MeshGeometry3D();
+            AddRectangle(sky1Mesh,
+                new Point3D(-6, +7, +6),
+                new Point3D(-6, -5, +6),
+                new Point3D(-6, -5, -6),
+                new Point3D(-6, +7, -6));
+            ImageBrush sky1Brush = new ImageBrush();
+            sky1Brush.ImageSource = new BitmapImage(new Uri(@"Resources\clouds.jpg", UriKind.Relative));
+            MaterialGroup sky1Group = new MaterialGroup();
+            sky1Group.Children.Add(new DiffuseMaterial(sky1Brush));
+            sky1Group.Children.Add(new EmissiveMaterial(new SolidColorBrush(
+                Color.FromArgb(255, 128, 128, 128))));
+            GeometryModel3D sky1Model = new GeometryModel3D(sky1Mesh, sky1Group);
+            _group.Children.Add(sky1Model);
+
+            MeshGeometry3D sky2Mesh = new MeshGeometry3D();
+            AddRectangle(sky2Mesh,
+                new Point3D(-6, +7, -6),
+                new Point3D(-6, -5, -6),
+                new Point3D(+6, -5, -6),
+                new Point3D(+6, +7, -6));
+            ImageBrush sky2Brush = new ImageBrush();
+            sky2Brush.ImageSource = new BitmapImage(new Uri(@"Resources\clouds.jpg", UriKind.Relative));
+            MaterialGroup sky2Group = new MaterialGroup();
+            sky2Group.Children.Add(new DiffuseMaterial(sky2Brush));
+            sky2Group.Children.Add(new EmissiveMaterial(new SolidColorBrush(
+                Color.FromArgb(255, 64, 64, 64))));
+            GeometryModel3D sky2Model = new GeometryModel3D(sky2Mesh, sky2Group);
+            _group.Children.Add(sky2Model);
+
+            MeshGeometry3D sky3Mesh = new MeshGeometry3D();
+            AddRectangle(sky3Mesh,
+                new Point3D(-6, -5, +6),
+                new Point3D(+6, -5, +6),
+                new Point3D(+6, -5, -6),
+                new Point3D(-6, -5, -6));
+            ImageBrush sky3Brush = new ImageBrush();
+            sky3Brush.ImageSource = new BitmapImage(new Uri(@"Resources\clouds.jpg", UriKind.Relative));
+            Material sky3Material = new DiffuseMaterial(sky3Brush);
+            GeometryModel3D sky3Model = new GeometryModel3D(sky3Mesh, sky3Material);
+            _group.Children.Add(sky3Model);
+        }
+
+        // Add a rectangle with texture coordinates to the mesh.
+        private void AddRectangle(MeshGeometry3D mesh, Point3D p1, Point3D p2, Point3D p3, Point3D p4)
+        {
+            int index = mesh.Positions.Count;
+            mesh.Positions.Add(p1);
+            mesh.Positions.Add(p2);
+            mesh.Positions.Add(p3);
+            mesh.Positions.Add(p4);
+
+            mesh.TextureCoordinates.Add(new Point(0, 0));
+            mesh.TextureCoordinates.Add(new Point(0, 1));
+            mesh.TextureCoordinates.Add(new Point(1, 1));
+            mesh.TextureCoordinates.Add(new Point(1, 0));
+
+            mesh.TriangleIndices.Add(index);
+            mesh.TriangleIndices.Add(index + 1);
+            mesh.TriangleIndices.Add(index + 2);
+
+            mesh.TriangleIndices.Add(index);
+            mesh.TriangleIndices.Add(index + 2);
+            mesh.TriangleIndices.Add(index + 3);
         }
     }
 }
