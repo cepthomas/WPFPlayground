@@ -11,6 +11,9 @@ using System.Windows.Shapes;
 
 namespace WPFPlayground
 {
+    /// <summary>
+    /// Just a temp home for some animation examples.
+    /// </summary>
     class Animation : Window
     {
         // A Canvas contains a collection of UIElement objects, which are in the Children property.

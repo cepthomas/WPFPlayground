@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Drawing;
 using Newtonsoft.Json;
 using System.Windows.Media;
 using System.Windows;

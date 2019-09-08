@@ -40,7 +40,6 @@ namespace WPFPlayground
 
         MyVisualHostDynamic _vhd = new MyVisualHostDynamic();
 
-
         #region Lifecycle
         public MainWindow()
         {
@@ -150,6 +149,13 @@ namespace WPFPlayground
         {
             infobox.AppendText($"{s}{Environment.NewLine}");
             infobox.ScrollToEnd();
+        }
+
+        private void OnFun3DClicked(object sender, RoutedEventArgs e)
+        {
+            var fun = new Fun3D { Owner = this };
+
+            fun.Show();
         }
 
         private void OnSettingsClicked(object sender, RoutedEventArgs e)
