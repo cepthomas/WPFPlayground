@@ -80,18 +80,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Animation.cs" />
-    <Compile Include="Fun3D.xaml.cs">
-      <DependentUpon>Fun3D.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ModelViewHelpers.cs" />
     <Compile Include="MyVisualHost.cs" />
+    <Compile Include="ThreeDee.xaml.cs">
+      <DependentUpon>ThreeDee.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserSettings.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="Editor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Fun3D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -110,6 +106,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ThreeDee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyViewModel.cs" />

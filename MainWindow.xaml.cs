@@ -14,10 +14,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
+using Wpf3dLib;
 
 namespace WPFPlayground
 {
@@ -83,6 +84,8 @@ namespace WPFPlayground
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             AddInfoLine($"Window_Loaded");
+
+            // Window_Loaded3D(sender, e);
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)

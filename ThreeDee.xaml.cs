@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 using System.Windows.Media.Media3D;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using Wpf3dLib;
 
 namespace WPFPlayground
 {
     /// <summary>
-    /// Interaction logic for Fun3D.xaml
+    /// Interaction logic for ThreeDee.xaml
     /// </summary>
-    public partial class Fun3D : Window
+    public partial class ThreeDee : UserControl
     {
         // The main model group.
         private Model3DGroup _group = null;
@@ -36,10 +36,14 @@ namespace WPFPlayground
         // The camera controller.
         private SphericalCameraController _cameraController = null;
 
-        public Fun3D()
+        string _resDir = @"C:\Dev\repos\WPFPlayground\Resources"; // TODO fix this
+
+
+        public ThreeDee()
         {
             InitializeComponent();
         }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -62,18 +66,17 @@ namespace WPFPlayground
             _group.Children.Add(new DirectionalLight(dark, new Vector3D(1, -3, -2)));
             _group.Children.Add(new DirectionalLight(dark, new Vector3D(-1, 3, 2)));
 
-            // Define the model.
-            {
-                // Move back a bit from the origin.
-                Point3D coords = _cameraController.SphericalCoordinates;
-                coords.X = 20;
-                _cameraController.SphericalCoordinates = coords;
-                DefineModelRobot();
-            }
+            ///// Define the model.
 
-            //{
-            //    DefineModelGarden();
-            //}
+            ///// robot
+            // Move back a bit from the origin.
+            Point3D coords = _cameraController.SphericalCoordinates;
+            coords.X = 20;
+            _cameraController.SphericalCoordinates = coords;
+            DefineModelRobot();
+
+            ///// garden
+            //DefineModelGarden();
         }
 
         // Define the model.
@@ -337,7 +340,7 @@ namespace WPFPlayground
             groundMesh.AddBox(corner, D3.XVector(dx), D3.YVector(dy), D3.ZVector(dz),
                 frontCoords, leftCoords, rightCoords, backCoords, topCoords, bottomCoords);
 
-            _group.Children.Add(groundMesh.MakeModel(@"Resources\rock.jpg"));
+            _group.Children.Add(groundMesh.MakeModel(System.IO.Path.Combine(_resDir, @"rock.jpg")));
         }
 
         private void neckSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -397,7 +400,7 @@ namespace WPFPlayground
 
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////
+        //////////////////// garden ////////////////////////////////////
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
 
@@ -423,7 +426,7 @@ namespace WPFPlayground
                 new Point3D(+1, 0, +1));
 
             ImageBrush rockBrush = new ImageBrush();
-            rockBrush.ImageSource = new BitmapImage(new Uri(@"Resources\rocks.jpg", UriKind.Relative));
+            rockBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"rocks.jpg"), UriKind.Relative));
             Material rockMaterial = new DiffuseMaterial(rockBrush);
             GeometryModel3D rockModel = new GeometryModel3D(rockMesh, rockMaterial);
             _group.Children.Add(rockModel);
@@ -452,7 +455,7 @@ namespace WPFPlayground
                 new Point3D(+3, 0, +1));
 
             ImageBrush grassBrush = new ImageBrush();
-            grassBrush.ImageSource = new BitmapImage(new Uri(@"Resources\grass.jpg", UriKind.Relative));
+            grassBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"grass.jpg"), UriKind.Relative));
             Material grassMaterial = new DiffuseMaterial(grassBrush);
             GeometryModel3D grassModel = new GeometryModel3D(grassMesh, grassMaterial);
             _group.Children.Add(grassModel);
@@ -465,7 +468,7 @@ namespace WPFPlayground
                 new Point3D(+1, 0, +1),
                 new Point3D(+1, 0, -1));
             ImageBrush waterBrush = new ImageBrush();
-            waterBrush.ImageSource = new BitmapImage(new Uri(@"Resources\water.jpg", UriKind.Relative));
+            waterBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"water.jpg"), UriKind.Relative));
             Material waterMaterial = new DiffuseMaterial(waterBrush);
             GeometryModel3D waterModel = new GeometryModel3D(waterMesh, waterMaterial);
             _group.Children.Add(waterModel);
@@ -478,7 +481,7 @@ namespace WPFPlayground
                 new Point3D(+1, 0, -1),
                 new Point3D(+1, 2, -1));
             ImageBrush brickBrush = new ImageBrush();
-            brickBrush.ImageSource = new BitmapImage(new Uri(@"Resources\bricks.jpg", UriKind.Relative));
+            brickBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"bricks.jpg"), UriKind.Relative));
             Material brickMaterial = new DiffuseMaterial(brickBrush);
             GeometryModel3D brickModel = new GeometryModel3D(brickMesh, brickMaterial);
             _group.Children.Add(brickModel);
@@ -491,7 +494,7 @@ namespace WPFPlayground
                 new Point3D(+1, 0, -3),
                 new Point3D(+1, 2, -3));
             ImageBrush metalBrush = new ImageBrush();
-            metalBrush.ImageSource = new BitmapImage(new Uri(@"Resources\metal.jpg", UriKind.Relative));
+            metalBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"metal.jpg"), UriKind.Relative));
             Material metalMaterial = new DiffuseMaterial(metalBrush);
             GeometryModel3D metalModel = new GeometryModel3D(metalMesh, metalMaterial);
             _group.Children.Add(metalModel);
@@ -504,7 +507,7 @@ namespace WPFPlayground
                 new Point3D(+1, 2, -1),
                 new Point3D(+1, 2, -3));
             ImageBrush woodBrush = new ImageBrush();
-            woodBrush.ImageSource = new BitmapImage(new Uri(@"Resources\wood.jpg", UriKind.Relative));
+            woodBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"wood.jpg"), UriKind.Relative));
             Material woodMaterial = new DiffuseMaterial(woodBrush);
             GeometryModel3D woodModel = new GeometryModel3D(woodMesh, woodMaterial);
             _group.Children.Add(woodModel);
@@ -517,7 +520,7 @@ namespace WPFPlayground
                 new Point3D(-1, 0, -1),
                 new Point3D(-1, 2, -1));
             ImageBrush fireBrush = new ImageBrush();
-            fireBrush.ImageSource = new BitmapImage(new Uri(@"Resources\fire.jpg", UriKind.Relative));
+            fireBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"fire.jpg"), UriKind.Relative));
             Material fireMaterial = new DiffuseMaterial(fireBrush);
             GeometryModel3D fireModel = new GeometryModel3D(fireMesh, fireMaterial);
             _group.Children.Add(fireModel);
@@ -530,7 +533,7 @@ namespace WPFPlayground
                 new Point3D(-1, 0, -3),
                 new Point3D(-1, 2, -3));
             ImageBrush clothBrush = new ImageBrush();
-            clothBrush.ImageSource = new BitmapImage(new Uri(@"Resources\cloth.jpg", UriKind.Relative));
+            clothBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"cloth.jpg"), UriKind.Relative));
             Material clothMaterial = new DiffuseMaterial(clothBrush);
             GeometryModel3D clothModel = new GeometryModel3D(clothMesh, clothMaterial);
             _group.Children.Add(clothModel);
@@ -543,7 +546,7 @@ namespace WPFPlayground
                 new Point3D(-6, -5, -6),
                 new Point3D(-6, +7, -6));
             ImageBrush sky1Brush = new ImageBrush();
-            sky1Brush.ImageSource = new BitmapImage(new Uri(@"Resources\clouds.jpg", UriKind.Relative));
+            sky1Brush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"clouds.jpg"), UriKind.Relative));
             MaterialGroup sky1Group = new MaterialGroup();
             sky1Group.Children.Add(new DiffuseMaterial(sky1Brush));
             sky1Group.Children.Add(new EmissiveMaterial(new SolidColorBrush(
@@ -558,7 +561,7 @@ namespace WPFPlayground
                 new Point3D(+6, -5, -6),
                 new Point3D(+6, +7, -6));
             ImageBrush sky2Brush = new ImageBrush();
-            sky2Brush.ImageSource = new BitmapImage(new Uri(@"Resources\clouds.jpg", UriKind.Relative));
+            sky2Brush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"clouds.jpg"), UriKind.Relative));
             MaterialGroup sky2Group = new MaterialGroup();
             sky2Group.Children.Add(new DiffuseMaterial(sky2Brush));
             sky2Group.Children.Add(new EmissiveMaterial(new SolidColorBrush(
@@ -573,7 +576,7 @@ namespace WPFPlayground
                 new Point3D(+6, -5, -6),
                 new Point3D(-6, -5, -6));
             ImageBrush sky3Brush = new ImageBrush();
-            sky3Brush.ImageSource = new BitmapImage(new Uri(@"Resources\clouds.jpg", UriKind.Relative));
+            sky3Brush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"clouds.jpg"), UriKind.Relative));
             Material sky3Material = new DiffuseMaterial(sky3Brush);
             GeometryModel3D sky3Model = new GeometryModel3D(sky3Mesh, sky3Material);
             _group.Children.Add(sky3Model);
