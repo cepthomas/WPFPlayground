@@ -154,13 +154,6 @@ namespace WPFPlayground
             infobox.ScrollToEnd();
         }
 
-        private void OnFun3DClicked(object sender, RoutedEventArgs e)
-        {
-            var fun = new Fun3D { Owner = this };
-
-            fun.Show();
-        }
-
         private void OnSettingsClicked(object sender, RoutedEventArgs e)
         {
             var dlg = new Editor { Owner = this, Settings = _settings };

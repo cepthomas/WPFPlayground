@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFPlayground", "WPFPlayground.csproj", "{A8B47100-8D07-4BA5-9CD5-233415990F48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf3dLib", "Wpf3dLib\Wpf3dLib.csproj", "{80F7C45D-B209-41BC-8222-BF91F999D111}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,26 @@ Global
 		{A8B47100-8D07-4BA5-9CD5-233415990F48}.Release|Win32.Build.0 = Release|Any CPU
 		{A8B47100-8D07-4BA5-9CD5-233415990F48}.Release|x64.ActiveCfg = Release|Any CPU
 		{A8B47100-8D07-4BA5-9CD5-233415990F48}.Release|x64.Build.0 = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|ARM.Build.0 = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|Win32.Build.0 = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Debug|x64.Build.0 = Debug|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|ARM.ActiveCfg = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|ARM.Build.0 = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|Win32.ActiveCfg = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|Win32.Build.0 = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|x64.ActiveCfg = Release|Any CPU
+		{80F7C45D-B209-41BC-8222-BF91F999D111}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

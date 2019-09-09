@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,30 +26,36 @@ namespace WPFPlayground
     public partial class ThreeDee : UserControl
     {
         // The main model group.
-        private Model3DGroup _group = null;
+        Model3DGroup _group = null;
 
         // The robot's Model3DGroups.
-        private Model3DGroup _groupRobot, _groupHead, _groupNeck, _groupShoulder,
+        Model3DGroup _groupRobot, _groupHead, _groupNeck, _groupShoulder,
             _groupLeftUpperArm, _groupRightUpperArm, _groupLeftLowerArm, _groupRightLowerArm, _groupBack,
             _groupLeftUpperLeg, _groupRightUpperLeg, _groupLeftLowerLeg, _groupRightLowerLeg;
 
         // The camera.
-        private PerspectiveCamera _camera = null;
+        PerspectiveCamera _camera = null;
 
         // The camera controller.
-        private SphericalCameraController _cameraController = null;
+        SphericalCameraController _cameraController = null;
 
-        string _resDir = @"C:\Dev\repos\WPFPlayground\Resources"; // TODO fix this
-
+        // Where the resources be.
+        string _resDir = "";
 
         public ThreeDee()
         {
             InitializeComponent();
         }
 
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public void GetResourcePath([CallerFilePath] string path = "")
         {
+            _resDir = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), "Resources");
+        }
+
+        void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetResourcePath();
+
             // Define WPF objects.
             ModelVisual3D visual3d = new ModelVisual3D();
             _group = new Model3DGroup();
@@ -76,11 +85,11 @@ namespace WPFPlayground
             DefineModelRobot();
 
             ///// garden
-            //DefineModelGarden();
+            DefineModelGarden();
         }
 
         // Define the model.
-        private void DefineModelRobot()
+        void DefineModelRobot()
         {
             // Axes.
             //MainGroup.Children.Add(MeshExtensions.XAxisModel(5, 0.1));
@@ -154,8 +163,7 @@ namespace WPFPlayground
             Point3D hatCenter = new Point3D(0, headR * 0.75, 0);
             hatMesh.AddSphere(hatCenter, headR * 0.75, 20, 10, true);
             const double hatR = headR * 1.2;
-            Point3D[] hatPgon = G3.MakePolygonPoints(20, hatCenter,
-                D3.XVector(hatR), D3.ZVector(hatR));
+            Point3D[] hatPgon = G3.MakePolygonPoints(20, hatCenter, D3.XVector(hatR), D3.ZVector(hatR));
             hatMesh.AddCylinder(hatPgon, D3.YVector(-0.2), true);
 
             GeometryModel3D hatModel = hatMesh.MakeModel(Brushes.SaddleBrown);
@@ -273,7 +281,7 @@ namespace WPFPlayground
         }
 
         // Join two bones together.
-        private Model3DGroup JoinBones(Model3DGroup parentGroup, Transform3D offset)
+        Model3DGroup JoinBones(Model3DGroup parentGroup, Transform3D offset)
         {
             Model3DGroup offsetGroup = new Model3DGroup();
             offsetGroup.Transform = offset;
@@ -285,7 +293,7 @@ namespace WPFPlayground
         }
 
         // Make the ground mesh.
-        private void MakeGround(double groundY)
+        void MakeGround(double groundY)
         {
             MeshGeometry3D groundMesh = new MeshGeometry3D();
             const double dx = 15;
@@ -343,53 +351,53 @@ namespace WPFPlayground
             _group.Children.Add(groundMesh.MakeModel(System.IO.Path.Combine(_resDir, @"rock.jpg")));
         }
 
-        private void neckSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void neckSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupNeck.Transform = D3.Rotate(D3.YVector(), D3.Origin, neckSlider.Value);
         }
 
-        private void leftShoulderSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void leftShoulderSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupLeftUpperArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftShoulderSlider.Value);
         }
 
-        private void rightShoulderSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void rightShoulderSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupRightUpperArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightShoulderSlider.Value);
         }
 
-        private void leftElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void leftElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupLeftLowerArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftElbowSlider.Value);
         }
 
-        private void rightElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void rightElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupRightLowerArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightElbowSlider.Value);
         }
 
-        private void leftHipSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void leftHipSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupLeftUpperLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftHipSlider.Value);
         }
 
-        private void rightHipSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void rightHipSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupRightUpperLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightHipSlider.Value);
         }
 
-        private void leftKneeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void leftKneeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupLeftLowerLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftKneeSlider.Value);
         }
 
-        private void rightKneeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void rightKneeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _groupRightLowerLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightKneeSlider.Value);
         }
 
         // Convert from spherical to Cartesian coordinates.
-        private Point3D SphericalToCartesian(double r, double theta, double phi)
+        Point3D SphericalToCartesian(double r, double theta, double phi)
         {
             double y = r * Math.Cos(phi);
             double h = r * Math.Sin(phi);
@@ -405,7 +413,7 @@ namespace WPFPlayground
         ////////////////////////////////////////////////////////////////
 
         // Define the model.
-        private void DefineModelGarden()
+        void DefineModelGarden()
         {
             // Rock sections.
             MeshGeometry3D rockMesh = new MeshGeometry3D();
@@ -583,7 +591,7 @@ namespace WPFPlayground
         }
 
         // Add a rectangle with texture coordinates to the mesh.
-        private void AddRectangle(MeshGeometry3D mesh, Point3D p1, Point3D p2, Point3D p3, Point3D p4)
+        void AddRectangle(MeshGeometry3D mesh, Point3D p1, Point3D p2, Point3D p3, Point3D p4)
         {
             int index = mesh.Positions.Count;
             mesh.Positions.Add(p1);
