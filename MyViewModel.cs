@@ -47,22 +47,22 @@ namespace WPFPlayground
 
             ////// Init command handlers.
             ChangeText = new RelayCommand(
-                p =>
+                predicate =>
                 {
                     return true;
                 },
-                p =>
+                action =>
                 {
                     _stringIndex++;
                     MyString = "Hey, you Clicked me " + _stringIndex.ToString();
                 });
 
             ChangeColor = new RelayCommand(
-                p =>
+                predicate =>
                 {
                     return true;
                 },
-                p =>
+                action =>
                 {
                     MyColor = colors[_colorIndex % colors.Count()];
                     _colorIndex++;

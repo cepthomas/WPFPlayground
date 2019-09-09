@@ -1,49 +1,5 @@
 
 
-This is a brief summary of the table of contents for my book WPF 3D, Three-Dimensional Graphics with WPF and C#.
-
-Contents
-Introduction
-Part I. Getting Started
-Chapter 1. XAML Example
-Chapter 2. C# Example
-Chapter 3. Coordinates
-Chapter 4. Projections
-Chapter 5. Camera Control
-Chapter 6. Lights
-Chapter 7. Materials
-
-Part II. Building Shapes
-Chapter 8. Vector Arithmetic
-Chapter 9. Transformations
-Chapter 10. Polygons
-Chapter 11. Parallelograms
-Chapter 12. Boxes
-Chapter 13. Pyramids
-Chapter 14. Cones
-Chapter 15. Cylinders
-Chapter 16. Spheres
-Chapter 17. Tori
-Chapter 18. Tetrahedrons
-Chapter 19. Cubes
-Chapter 20. Octahedrons
-Chapter 21. Dodecahedrons
-Chapter 22. Icosahedrons
-Chapter 23. Wireframes
-
-Part III. Investigating Advanced Topics
-Chapter 24. Geodesic Spheres
-Chapter 25. Stellate Solids
-Chapter 26. Surfaces
-Chapter 27. Normals
-Chapter 28. Transformation Surfaces
-Chapter 29. Fractal Surfaces
-Chapter 30. Three-Dimensional Text
-Chapter 31. Two-Dimensional Text
-Chapter 32. Moving Objects
-Chapter 33. Models
-Chapter 34. Charts and Graphs
-Chapter 35. Skeletons
 Afterword
 Index
 
@@ -51,10 +7,10 @@ Index
 -------------------------------------------------------------------
 
 Canvas uses Shapes.
-VisualHost : FrameworkElement holds Drawing objects.
+FrameworkElement uses Drawing objects.
 
-
-WPF provides both Drawing and Shape objects to represent graphical drawing content. However, Drawing objects are simpler constructs than Shape objects and provide better performance characteristics.
+WPF provides both Drawing and Shape objects to represent graphical drawing content. However, Drawing objects
+are simpler constructs than Shape objects and provide better performance characteristics.
 
 A Shape allows you to draw a graphical shape to the screen. Because they are derived from the FrameworkElement class, Shape objects can be used inside panels and most controls.
 

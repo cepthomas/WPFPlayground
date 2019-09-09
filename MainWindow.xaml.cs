@@ -95,12 +95,13 @@ namespace WPFPlayground
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            AddInfoLine($"Window_Closed");
             _settings.Save();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-
+            AddInfoLine($"Window_Closing");
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -161,7 +162,6 @@ namespace WPFPlayground
             if (dlg.ShowDialog().Value)
             {
                 // Changes made - apply.
-
                 _settings = dlg.Settings;
                 _settings.Save();
             }

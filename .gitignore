@@ -329,3 +329,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /settings.json
+/wpfplay.sublime-project
+/wpfplay.sublime-workspace
