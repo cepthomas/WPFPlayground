@@ -39,7 +39,7 @@ namespace WPFPlayground
         UserSettings _settings = null;
         Random _rand = new Random();
 
-        MyVisualHostDynamic _vhd = new MyVisualHostDynamic();
+        MyVisualHost _vhd = new MyVisualHost();
 
         #region Lifecycle
         public MainWindow()
@@ -63,43 +63,39 @@ namespace WPFPlayground
             _fastTimer.Start();
 
             // Raw drawing.
-            var vhs = new MyVisualHostStatic();
-            myCanvasDrawingStatic.Children.Add(vhs);
-
-            myCanvasDrawingDynamic.Children.Add(_vhd);
+            myCanvasDrawing.Children.Add(_vhd);
+            myCanvasDrawingStatic.Children.Add(new MyVisualHostStaticHitTest());
         }
 
-        private void Window_Initialized(object sender, EventArgs e)
+        void Window_Initialized(object sender, EventArgs e)
         {
             AddInfoLine($"Window_Initialized");
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AddInfoLine($"Window_SizeChanged");
 
             _settings.MainWindowInfo.FromWindow(this);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        void Window_Loaded(object sender, RoutedEventArgs e)
         {
             AddInfoLine($"Window_Loaded");
-
-            // Window_Loaded3D(sender, e);
         }
 
-        private void Window_ContentRendered(object sender, EventArgs e)
+        void Window_ContentRendered(object sender, EventArgs e)
         {
             AddInfoLine($"Window_ContentRendered");
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        void Window_Closed(object sender, EventArgs e)
         {
             AddInfoLine($"Window_Closed");
             _settings.Save();
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
+        void Window_Closing(object sender, CancelEventArgs e)
         {
             AddInfoLine($"Window_Closing");
         }
@@ -113,12 +109,12 @@ namespace WPFPlayground
         #endregion
 
 
-        private void FastTimer_Tick(object sender, EventArgs e)
+        void FastTimer_Tick(object sender, EventArgs e)
         {
             _vhd.Update();
         }
 
-        private void SlowTimer_Tick(object sender, EventArgs e)
+        void SlowTimer_Tick(object sender, EventArgs e)
         {
             //myCanvasShape.Children.Clear();
 
@@ -137,7 +133,7 @@ namespace WPFPlayground
             myCanvasShape.Children.Add(rect);
         }
 
-        private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
+        void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MyViewModel vm = DataContext as MyViewModel;
 
@@ -155,7 +151,7 @@ namespace WPFPlayground
             infobox.ScrollToEnd();
         }
 
-        private void OnSettingsClicked(object sender, RoutedEventArgs e)
+        void OnSettingsClicked(object sender, RoutedEventArgs e)
         {
             var dlg = new Editor { Owner = this, Settings = _settings };
 

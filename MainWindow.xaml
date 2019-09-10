@@ -76,7 +76,7 @@
 
         <TextBox x:Name="infobox" Grid.Column="1" Grid.Row="1" Height="Auto" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
 
-        <Canvas x:Name="myCanvasDrawingDynamic" Grid.Column="1" Grid.Row="2" Margin="5"/>
+        <Canvas x:Name="myCanvasDrawing" Grid.Column="1" Grid.Row="2" Margin="5"/>
 
         <Canvas x:Name="myCanvasDrawingStatic" Grid.Column="0" Grid.Row="2" Margin="5"/>
 

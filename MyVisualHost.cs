@@ -10,17 +10,15 @@ namespace WPFPlayground
     /// <summary>
     /// 
     /// </summary>
-    public class MyVisualHostDynamic : FrameworkElement
+    public class MyVisualHost : FrameworkElement
     {
         // Create a collection of child visual objects.
         readonly VisualCollection _children;
         Random _rand = new Random();
 
-        public MyVisualHostDynamic()
+        public MyVisualHost()
         {
-            _children = new VisualCollection(this)
-            {
-            };
+            _children = new VisualCollection(this);
 
             // Add the event handler for MouseLeftButtonUp.
             MouseLeftButtonUp += MyVisualHost_MouseLeftButtonUp;
@@ -28,22 +26,20 @@ namespace WPFPlayground
 
         public void Update()
         {
+            // Add a dot in a random color/location.
             Canvas c = Parent as Canvas;
             Color clr = Color.FromRgb((byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255));
             int x = _rand.Next(0, (int)c.ActualWidth);
             int y = _rand.Next(0, (int)c.ActualHeight);
 
-            DrawingVisual drawingVisual = new DrawingVisual();
-
-            // Retrieve the DrawingContext in order to create new drawing content.
-            DrawingContext drawingContext = drawingVisual.RenderOpen();
-
-            drawingContext.DrawEllipse(new SolidColorBrush(clr), null, new Point(x, y), 3.0, 3.0);
-
+            // Draw it.
+            DrawingVisual vis = new DrawingVisual();
+            DrawingContext context = vis.RenderOpen();
+            context.DrawEllipse(new SolidColorBrush(clr), null, new Point(x, y), 5.0, 5.0);
             // Close the DrawingContext to persist changes to the DrawingVisual.
-            drawingContext.Close();
+            context.Close();
 
-            _children.Add(drawingVisual);
+            _children.Add(vis);
         }
 
         // Capture the mouse event and hit test the coordinate point value against
@@ -75,14 +71,14 @@ namespace WPFPlayground
     /// <summary>
     /// 
     /// </summary>
-    public class MyVisualHostStatic : FrameworkElement
+    public class MyVisualHostStaticHitTest : FrameworkElement
     {
         // Create a collection of child visual objects.
         VisualCollection _children;
         double _width = 0;
         double _height = 0;
 
-        public MyVisualHostStatic()
+        public MyVisualHostStaticHitTest()
         {
             _children = new VisualCollection(this);
 

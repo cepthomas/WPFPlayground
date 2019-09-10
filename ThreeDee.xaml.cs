@@ -85,7 +85,7 @@ namespace WPFPlayground
             DefineModelRobot();
 
             ///// garden
-            DefineModelGarden();
+            //DefineModelGarden();
         }
 
         // Define the model.
@@ -100,10 +100,6 @@ namespace WPFPlayground
             // Make the ground.
             const double groundY = -5;
             MakeGround(groundY);
-
-            // This group represents the whole robot.
-            ////RobotGroup = new Model3DGroup();
-            ////_group.Children.Add(RobotGroup);
 
             // Various robot dimensions.
             const double headR = 1.5;           // Head radius.
