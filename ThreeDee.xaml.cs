@@ -47,14 +47,9 @@ namespace WPFPlayground
             InitializeComponent();
         }
 
-        public void GetResourcePath([CallerFilePath] string path = "")
-        {
-            _resDir = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), "Resources");
-        }
-
         void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            GetResourcePath();
+            _resDir = System.IO.Path.Combine(Utils.GetSourcePath(), "Resources");
 
             // Define WPF objects.
             ModelVisual3D visual3d = new ModelVisual3D();

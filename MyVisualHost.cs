@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace WPFPlayground
 {
     /// <summary>
-    /// 
+    /// A dynamic drawing space.
     /// </summary>
     public class MyVisualHost : FrameworkElement
     {
@@ -44,13 +44,10 @@ namespace WPFPlayground
 
         // Capture the mouse event and hit test the coordinate point value against
         // the child visual objects.
-        private void MyVisualHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void MyVisualHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // Retreive the coordinates of the mouse button event.
             Point pt = e.GetPosition((UIElement)sender);
-
-            // Initiate the hit test by setting up a hit test result callback method.
-            //VisualTreeHelper.HitTest(this, null, DoHitTest, new PointHitTestParameters(pt));
         }
 
         // Provide a required override for the VisualChildrenCount property.
@@ -69,7 +66,7 @@ namespace WPFPlayground
     }
 
     /// <summary>
-    /// 
+    /// A static drawing space with user input.
     /// </summary>
     public class MyVisualHostStaticHitTest : FrameworkElement
     {
@@ -150,8 +147,11 @@ namespace WPFPlayground
 
             // Draw a formatted text string into the DrawingContext.
             drawingContext.DrawText(
-                new FormattedText("Click Me!", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, 
-                    new Typeface("Verdana"), 36, Brushes.Black, 1.0),
+                new FormattedText("Click Me!",
+                    CultureInfo.GetCultureInfo("en-us"),
+                    FlowDirection.LeftToRight, 
+                    new Typeface("Verdana"),
+                    36, Brushes.Black, 1.0),
                 new Point(10, 10));
 
             // Close the DrawingContext to persist changes to the DrawingVisual.
@@ -173,7 +173,6 @@ namespace WPFPlayground
 
             return drawingVisual;
         }
-
 
         // Provide a required override for the VisualChildrenCount property.
         protected override int VisualChildrenCount => _children.Count;

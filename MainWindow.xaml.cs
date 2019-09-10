@@ -24,13 +24,6 @@ namespace WPFPlayground
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// These happen in this order.
-    ///   Window_Initialized
-    ///   MainWindow
-    ///   OnRender
-    ///   Window_SizeChanged
-    ///   Window_Loaded
-    ///   Window_ContentRendered
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -47,7 +40,7 @@ namespace WPFPlayground
             InitializeComponent();
             AddInfoLine($"MainWindow constructor");
 
-            _settings = UserSettings.Load(@"..\..\settings.json");
+            _settings = UserSettings.Load(System.IO.Path.Combine(Utils.GetSourcePath(), "settings.json"));
 
             Left = _settings.MainWindowInfo.X;
             Top = _settings.MainWindowInfo.Y;
