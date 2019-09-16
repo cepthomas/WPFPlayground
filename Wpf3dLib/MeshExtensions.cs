@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Media.Imaging;
 using System.Windows;
+
 
 namespace Wpf3dLib
 {
@@ -144,7 +144,7 @@ namespace Wpf3dLib
         public static void AddPolygon(this MeshGeometry3D mesh,
             Dictionary<Point3D, int> pointDict = null,
             HashSet<Edge> edges = null, double thickness = 0.1,
-            Point[] textureCoords = null, Vector3D[] normals = null, 
+            Point[] textureCoords = null, Vector3D[] normals = null,
             params Point3D[] points)
         {
             if (edges != null)
@@ -407,20 +407,20 @@ namespace Wpf3dLib
         }
 
         // Make a cube at the origin.
-public static void AddOrigin(Model3DGroup group,
-    double cubeThickness = 0.102)
-{
-    MeshGeometry3D mesh = new MeshGeometry3D();
-    Point3D origin = D3.Origin -
-        D3.XVector(cubeThickness / 2) -
-        D3.YVector(cubeThickness / 2) -
-        D3.ZVector(cubeThickness / 2);
-    mesh.AddBox(origin,
-        D3.XVector(cubeThickness),
-        D3.YVector(cubeThickness),
-        D3.ZVector(cubeThickness));
-    group.Children.Add(mesh.MakeModel(Brushes.Black));
-}
+        public static void AddOrigin(Model3DGroup group,
+            double cubeThickness = 0.102)
+        {
+            MeshGeometry3D mesh = new MeshGeometry3D();
+            Point3D origin = D3.Origin -
+                D3.XVector(cubeThickness / 2) -
+                D3.YVector(cubeThickness / 2) -
+                D3.ZVector(cubeThickness / 2);
+            mesh.AddBox(origin,
+                D3.XVector(cubeThickness),
+                D3.YVector(cubeThickness),
+                D3.ZVector(cubeThickness));
+            group.Children.Add(mesh.MakeModel(Brushes.Black));
+        }
 
         // Make X, Y, and Z axes, and the origin cube.
         public static void AddAxes(Model3DGroup group,
@@ -1521,7 +1521,7 @@ public static void AddOrigin(Model3DGroup group,
         }
 
         #endregion Surfaces
-        
+
         #region Normals
 
         // Convert a mesh into a new mesh containing triangle normals.
@@ -1626,7 +1626,7 @@ public static void AddOrigin(Model3DGroup group,
                         pts1[p - 1], pts1[p], pts2[p], pts2[p - 1],
                     };
                     mesh.AddPolygon(pointDict: pointDict,
-                        edges: edges, thickness: thickness, points:sidePts);
+                        edges: edges, thickness: thickness, points: sidePts);
                 }
             }
 

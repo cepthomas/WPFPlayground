@@ -31,7 +31,6 @@ namespace WPFPlayground
         DispatcherTimer _fastTimer = new DispatcherTimer();
         UserSettings _settings = null;
         Random _rand = new Random();
-
         MyVisualHost _vhd = new MyVisualHost();
 
         #region Lifecycle
@@ -109,6 +108,7 @@ namespace WPFPlayground
 
         void SlowTimer_Tick(object sender, EventArgs e)
         {
+            const int NUM_RECTS = 20;
             //myCanvasShape.Children.Clear();
 
             Color clr = Color.FromRgb((byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255));
@@ -123,6 +123,12 @@ namespace WPFPlayground
 
             Canvas.SetLeft(rect, _rand.Next(10, (int)myCanvasShape.ActualWidth - 120));
             Canvas.SetTop(rect, _rand.Next(10, (int)myCanvasShape.ActualHeight - 60));
+
+            if (myCanvasShape.Children.Count > NUM_RECTS)
+            {
+                myCanvasShape.Children.RemoveRange(0, NUM_RECTS / 5);
+            }
+
             myCanvasShape.Children.Add(rect);
         }
 

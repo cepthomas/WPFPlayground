@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
@@ -23,14 +24,19 @@ namespace WPFPlayground
     /// <summary>
     /// Interaction logic for ThreeDee.xaml
     /// </summary>
-    public partial class ThreeDee : UserControl
+    public partial class ThreeDee : Window
     {
+        enum ThreeDeeType { Garden, Robot }
+
+        readonly Random _rand = new Random();
+        int _lastTick = Environment.TickCount;
+
         // The main model group.
         Model3DGroup _group = null;
 
         // The robot's Model3DGroups.
-        Model3DGroup _groupRobot, _groupHead, _groupNeck, _groupShoulder,
-            _groupLeftUpperArm, _groupRightUpperArm, _groupLeftLowerArm, _groupRightLowerArm, _groupBack,
+        Model3DGroup _groupRobot, _groupHead, _groupNeck, _groupShoulder, _groupBack,
+            _groupLeftUpperArm, _groupRightUpperArm, _groupLeftLowerArm, _groupRightLowerArm,
             _groupLeftUpperLeg, _groupRightUpperLeg, _groupLeftLowerLeg, _groupRightLowerLeg;
 
         // The camera.
@@ -45,10 +51,15 @@ namespace WPFPlayground
         public ThreeDee()
         {
             InitializeComponent();
+
+            Left = 200;
+            Top = 10;
         }
 
         void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ThreeDeeType which = ThreeDeeType.Robot;
+
             _resDir = System.IO.Path.Combine(Utils.GetSourcePath(), "Resources");
 
             // Define WPF objects.
@@ -64,33 +75,60 @@ namespace WPFPlayground
             // Define the lights.
             Color darker = Color.FromArgb(255, 96, 96, 96);
             Color dark = Color.FromArgb(255, 128, 128, 128);
-            //Color red = Color.FromArgb(255, 255, 0, 0);
             _group.Children.Add(new AmbientLight(darker));
-            _group.Children.Add(new DirectionalLight(dark, new Vector3D(0, -1, 0)));
-            _group.Children.Add(new DirectionalLight(dark, new Vector3D(1, -3, -2)));
-            _group.Children.Add(new DirectionalLight(dark, new Vector3D(-1, 3, 2)));
+            _group.Children.Add(new DirectionalLight(dark, new Vector3D( 0, -1,  0)));
+            _group.Children.Add(new DirectionalLight(dark, new Vector3D( 1, -3, -2)));
+            _group.Children.Add(new DirectionalLight(dark, new Vector3D(-1,  3,  2)));
 
             ///// Define the model.
+            ///
+            if (which == ThreeDeeType.Robot)
+            {
+                // Move back a bit from the origin.
+                Point3D coords = _cameraController.SphericalCoordinates;
+                coords.X = 20;
+                //coords.Y = 20;
+                _cameraController.SphericalCoordinates = coords;
+                DefineModelRobot();
 
-            ///// robot
-            // Move back a bit from the origin.
-            Point3D coords = _cameraController.SphericalCoordinates;
-            coords.X = 20;
-            _cameraController.SphericalCoordinates = coords;
-            DefineModelRobot();
+                // Some animation.
+                // How long from min to max.
+                var duration = 6.0 + 10.0 * _rand.NextDouble();
+                var andur = new Duration(TimeSpan.FromSeconds(duration));
 
-            ///// garden
-            //DefineModelGarden();
+                // <Slider Grid.Row="3" Grid.Column="2" Minimum="0" Maximum="140" Name="leftElbowSlider" ValueChanged="leftElbowSlider_ValueChanged" />
+
+                //leftElbowSlider.Minimum;
+
+                var anX = new DoubleAnimation(leftElbowSlider.Minimum, leftElbowSlider.Maximum, andur)
+                {
+                    BeginTime = TimeSpan.FromSeconds(0),
+                    RepeatBehavior = RepeatBehavior.Forever
+                };
+                anX.BeginAnimation(leftElbowSlider.ValueProperty, null);
+                //var offsetTransform = new TranslateTransform();
+                //offsetTransform.BeginAnimation(TranslateTransform.XProperty, anX);
+                //offsetTransform.BeginAnimation(TranslateTransform.YProperty, anX);
+                //circle.RenderTransform = offsetTransform;
+
+            }
+            else if (which == ThreeDeeType.Garden)
+            {
+                DefineModelGarden();
+            }
         }
 
         // Define the model.
         void DefineModelRobot()
         {
+            Width = 450;
+            Height = 700;
+
             // Axes.
-            //MainGroup.Children.Add(MeshExtensions.XAxisModel(5, 0.1));
-            //MainGroup.Children.Add(MeshExtensions.YAxisModel(12, 0.1));
-            //MainGroup.Children.Add(MeshExtensions.ZAxisModel(5, 0.1));
-            //MainGroup.Children.Add(MeshExtensions.OriginModel(0.12));
+            MeshExtensions.AddXAxis(_group, 15, 0.1); // red
+            MeshExtensions.AddYAxis(_group, 12, 0.1); // green
+            MeshExtensions.AddZAxis(_group, 15, 0.1); // blue
+            MeshExtensions.AddOrigin(_group, 0.5);  // black
 
             // Make the ground.
             const double groundY = -5;
@@ -406,6 +444,9 @@ namespace WPFPlayground
         // Define the model.
         void DefineModelGarden()
         {
+            Width = 700;
+            Height = 700;
+
             // Rock sections.
             MeshGeometry3D rockMesh = new MeshGeometry3D();
             AddRectangle(rockMesh,

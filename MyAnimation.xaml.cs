@@ -29,7 +29,6 @@ namespace WPFPlayground
             InitializeComponent();
         }
 
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CreateCircles();
@@ -59,36 +58,37 @@ namespace WPFPlayground
 
                 // How long from min to max.
                 var duration = 6.0 + 10.0 * _rand.NextDouble();
+                var andur = new Duration(TimeSpan.FromSeconds(duration));
                 // Wait to start.
                 var delay = 16.0 * _rand.NextDouble();
 
-                //////////////////////
-                var offsetXAnimation = new DoubleAnimation(0.0, -canvas.ActualWidth / 2, new Duration(TimeSpan.FromSeconds(duration)))
-                {
-                    RepeatBehavior = RepeatBehavior.Forever,
-                    BeginTime = TimeSpan.FromSeconds(delay)
-                };
-                var offsetTransform = new TranslateTransform();
-                offsetTransform.BeginAnimation(TranslateTransform.XProperty, offsetXAnimation);
-                offsetTransform.BeginAnimation(TranslateTransform.YProperty, offsetXAnimation);
-                circle.RenderTransform = offsetTransform;
-
-                //////////////////////
-                var sizeAnimation = new DoubleAnimation(0.0, canvas.ActualHeight, new Duration(TimeSpan.FromSeconds(duration)))
-                {
-                    RepeatBehavior = RepeatBehavior.Forever,
-                    BeginTime = TimeSpan.FromSeconds(delay)
-                };
-                circle.BeginAnimation(WidthProperty, sizeAnimation);
-                circle.BeginAnimation(HeightProperty, sizeAnimation);
-
-                //////////////////////
-                var opacityAnimation = new DoubleAnimation(duration - 1.0, 0.0, new Duration(TimeSpan.FromSeconds(duration)))
+                ////////// X position ////////////
+                var anX = new DoubleAnimation(0.0, -canvas.ActualWidth / 2, andur)
                 {
                     BeginTime = TimeSpan.FromSeconds(delay),
                     RepeatBehavior = RepeatBehavior.Forever
                 };
-                circle.BeginAnimation(OpacityProperty, opacityAnimation);
+                var offsetTransform = new TranslateTransform();
+                offsetTransform.BeginAnimation(TranslateTransform.XProperty, anX);
+                offsetTransform.BeginAnimation(TranslateTransform.YProperty, anX);
+                circle.RenderTransform = offsetTransform;
+
+                ////////// Y position ////////////
+                var anSize = new DoubleAnimation(0.0, canvas.ActualHeight, andur)
+                {
+                    BeginTime = TimeSpan.FromSeconds(delay),
+                    RepeatBehavior = RepeatBehavior.Forever
+                };
+                circle.BeginAnimation(WidthProperty, anSize);
+                circle.BeginAnimation(HeightProperty, anSize);
+
+                ////////// fading ////////////
+                var anOpac = new DoubleAnimation(duration - 1.0, 0.0, andur)
+                {
+                    BeginTime = TimeSpan.FromSeconds(delay),
+                    RepeatBehavior = RepeatBehavior.Forever
+                };
+                circle.BeginAnimation(OpacityProperty, anOpac);
             }
         }
     }

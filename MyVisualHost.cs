@@ -26,6 +26,8 @@ namespace WPFPlayground
 
         public void Update()
         {
+            const int NUM_DOTS = 100;
+
             // Add a dot in a random color/location.
             Canvas c = Parent as Canvas;
             Color clr = Color.FromRgb((byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255));
@@ -40,6 +42,10 @@ namespace WPFPlayground
             context.Close();
 
             _children.Add(vis);
+            if(_children.Count > NUM_DOTS)
+            {
+                _children.RemoveRange(0, NUM_DOTS / 20);
+            }
         }
 
         // Capture the mouse event and hit test the coordinate point value against

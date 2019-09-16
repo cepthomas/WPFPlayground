@@ -30,10 +30,12 @@ namespace Wpf3dLib
         {
             return new Vector3D(length, 0, 0);
         }
+
         public static Vector3D YVector(double length = 1)
         {
             return new Vector3D(0, length, 0);
         }
+
         public static Vector3D ZVector(double length = 1)
         {
             return new Vector3D(0, 0, length);
