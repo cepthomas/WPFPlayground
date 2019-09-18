@@ -50,8 +50,6 @@
     <Compile Include="Edge.cs" />
     <Compile Include="G3.cs" />
     <Compile Include="MeshExtensions.cs" />
-    <Compile Include="ObjLoader.cs" />
-    <Compile Include="ObjMaterial.cs" />
     <Compile Include="Point3DExtensions.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

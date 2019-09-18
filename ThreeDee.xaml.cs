@@ -81,7 +81,6 @@ namespace WPFPlayground
             _group.Children.Add(new DirectionalLight(dark, new Vector3D(-1,  3,  2)));
 
             ///// Define the model.
-            ///
             if (which == ThreeDeeType.Robot)
             {
                 // Move back a bit from the origin.
@@ -91,26 +90,68 @@ namespace WPFPlayground
                 _cameraController.SphericalCoordinates = coords;
                 DefineModelRobot();
 
-                // Some animation.
-                // How long from min to max.
-                var duration = 6.0 + 10.0 * _rand.NextDouble();
-                var andur = new Duration(TimeSpan.FromSeconds(duration));
+                // Some animation.  red = x   green = y   blue = z
 
-                // <Slider Grid.Row="3" Grid.Column="2" Minimum="0" Maximum="140" Name="leftElbowSlider" ValueChanged="leftElbowSlider_ValueChanged" />
+                // Mesh defines the surface.
+                MeshGeometry3D animMesh = new MeshGeometry3D();
+                Point3D pt = D3.Origin;
 
-                //leftElbowSlider.Minimum;
+                //////// box
+                int size = 2;
+                animMesh.AddBox(pt, new Vector3D(size, 0, 0), new Vector3D(0, size, 0), new Vector3D(0, 0, size));
 
-                var anX = new DoubleAnimation(leftElbowSlider.Minimum, leftElbowSlider.Maximum, andur)
+                //////// sphere
+                //double radius = 2;
+                //animMesh.AddSphere(pt, radius, 30, 10, true);
+                //pt.Z += 2.5;
+                //pt.X += 1;
+                //animMesh.AddSphere(pt, radius, 30, 10, true);
+
+
+                //////////// Common
+                var dur = new Duration(TimeSpan.FromMilliseconds(5000));
+                // Model is the thing that is manipulated.
+                GeometryModel3D animModel = animMesh.MakeModel(Brushes.Violet);
+                _group.Children.Add(animModel);
+                var transGroup = new Transform3DGroup();
+                animModel.Transform = transGroup;
+
+
+                //////////// stretch
+                ScaleTransform3D myScaleTransform3D = new ScaleTransform3D();
+                myScaleTransform3D.ScaleX = 2;
+                myScaleTransform3D.ScaleY = 0.5;
+                myScaleTransform3D.ScaleZ = 1;
+                // Add the scale transform to the Transform3DGroup.
+                //myTransform3DGroup.Children.Add(myScaleTransform3D);
+                transGroup.Children.Add(myScaleTransform3D);
+
+
+                //////////// Move
+                var anim = new DoubleAnimation(0.0, 3, dur)
                 {
                     BeginTime = TimeSpan.FromSeconds(0),
                     RepeatBehavior = RepeatBehavior.Forever
                 };
-                anX.BeginAnimation(leftElbowSlider.ValueProperty, null);
-                //var offsetTransform = new TranslateTransform();
-                //offsetTransform.BeginAnimation(TranslateTransform.XProperty, anX);
-                //offsetTransform.BeginAnimation(TranslateTransform.YProperty, anX);
-                //circle.RenderTransform = offsetTransform;
+                var offsetTransform = new TranslateTransform3D();
+                //offsetTransform.BeginAnimation(TranslateTransform3D.OffsetXProperty, anim);
+                //offsetTransform.BeginAnimation(TranslateTransform3D.OffsetYProperty, anim);
+                offsetTransform.BeginAnimation(TranslateTransform3D.OffsetZProperty, anim);
+                transGroup.Children.Add(offsetTransform);
 
+
+                ///////// rotation
+                var startAxis = new Vector3D(1, 0, 0);// (0, 1, 0);
+                var rot = new AxisAngleRotation3D(startAxis, 180);
+                var myRotateTransform = new RotateTransform3D(rot);
+                // end, duration
+                var rotateTo = new Vector3D(-1, -1, -1);
+                var myVectorAnimation = new Vector3DAnimation(rotateTo, dur)
+                {
+                    RepeatBehavior = RepeatBehavior.Forever
+                };
+                myRotateTransform.Rotation.BeginAnimation(AxisAngleRotation3D.AxisProperty, myVectorAnimation);
+                transGroup.Children.Add(myRotateTransform);
             }
             else if (which == ThreeDeeType.Garden)
             {
@@ -118,6 +159,7 @@ namespace WPFPlayground
             }
         }
 
+        #region Robot
         // Define the model.
         void DefineModelRobot()
         {
@@ -125,9 +167,9 @@ namespace WPFPlayground
             Height = 700;
 
             // Axes.
-            MeshExtensions.AddXAxis(_group, 15, 0.1); // red
-            MeshExtensions.AddYAxis(_group, 12, 0.1); // green
-            MeshExtensions.AddZAxis(_group, 15, 0.1); // blue
+            MeshExtensions.AddXAxis(_group, 15, 0.1); // red = x
+            MeshExtensions.AddYAxis(_group, 12, 0.1); // green = y
+            MeshExtensions.AddZAxis(_group, 15, 0.1); // blue = z
             MeshExtensions.AddOrigin(_group, 0.5);  // black
 
             // Make the ground.
@@ -397,7 +439,7 @@ namespace WPFPlayground
 
         void leftElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            _groupLeftLowerArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftElbowSlider.Value);
+//            _groupLeftLowerArm.Transform = D3.Rotate(-D3.XVector(), D3.Origin, leftElbowSlider.Value);
         }
 
         void rightElbowSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -434,13 +476,9 @@ namespace WPFPlayground
             double z = h * Math.Cos(theta);
             return new Point3D(x, y, z);
         }
+        #endregion
 
-        ////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////
-        //////////////////// garden ////////////////////////////////////
-        ////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////
-
+        #region Garden
         // Define the model.
         void DefineModelGarden()
         {
@@ -644,5 +682,6 @@ namespace WPFPlayground
             mesh.TriangleIndices.Add(index + 2);
             mesh.TriangleIndices.Add(index + 3);
         }
+        #endregion
     }
 }
