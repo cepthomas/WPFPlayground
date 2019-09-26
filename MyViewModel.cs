@@ -11,12 +11,11 @@ namespace WPFPlayground
 {
     public class MyViewModel : ViewModelBase
     {
-        /////// Commands
+        /// Commands
         public ICommand ChangeText { get; set; }
-
         public ICommand ChangeColor { get; set; }
 
-        /////// Properties.
+        /// Properties.
         string _color = "LightGreen";
         public string MyColor
         {

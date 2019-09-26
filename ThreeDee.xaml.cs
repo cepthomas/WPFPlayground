@@ -107,7 +107,6 @@ namespace WPFPlayground
                 //pt.X += 1;
                 //animMesh.AddSphere(pt, radius, 30, 10, true);
 
-
                 //////////// Common
                 var dur = new Duration(TimeSpan.FromMilliseconds(5000));
                 // Model is the thing that is manipulated.
@@ -115,7 +114,6 @@ namespace WPFPlayground
                 _group.Children.Add(animModel);
                 var transGroup = new Transform3DGroup();
                 animModel.Transform = transGroup;
-
 
                 //////////// stretch
                 ScaleTransform3D myScaleTransform3D = new ScaleTransform3D();
@@ -125,7 +123,6 @@ namespace WPFPlayground
                 // Add the scale transform to the Transform3DGroup.
                 //myTransform3DGroup.Children.Add(myScaleTransform3D);
                 transGroup.Children.Add(myScaleTransform3D);
-
 
                 //////////// Move
                 var anim = new DoubleAnimation(0.0, 3, dur)
@@ -138,7 +135,6 @@ namespace WPFPlayground
                 //offsetTransform.BeginAnimation(TranslateTransform3D.OffsetYProperty, anim);
                 offsetTransform.BeginAnimation(TranslateTransform3D.OffsetZProperty, anim);
                 transGroup.Children.Add(offsetTransform);
-
 
                 ///////// rotation
                 var startAxis = new Vector3D(1, 0, 0);// (0, 1, 0);
@@ -160,7 +156,7 @@ namespace WPFPlayground
         }
 
         #region Robot
-        // Define the model.
+        /// Define the model.
         void DefineModelRobot()
         {
             Width = 450;
@@ -351,7 +347,7 @@ namespace WPFPlayground
             _groupRightLowerLeg.Children.Add(rlLegModel);
         }
 
-        // Join two bones together.
+        /// Join two bones together.
         Model3DGroup JoinBones(Model3DGroup parentGroup, Transform3D offset)
         {
             Model3DGroup offsetGroup = new Model3DGroup();
@@ -363,7 +359,7 @@ namespace WPFPlayground
             return result;
         }
 
-        // Make the ground mesh.
+        /// Make the ground mesh.
         void MakeGround(double groundY)
         {
             MeshGeometry3D groundMesh = new MeshGeometry3D();
@@ -467,7 +463,7 @@ namespace WPFPlayground
             _groupRightLowerLeg.Transform = D3.Rotate(-D3.XVector(), D3.Origin, rightKneeSlider.Value);
         }
 
-        // Convert from spherical to Cartesian coordinates.
+        /// Convert from spherical to Cartesian coordinates.
         Point3D SphericalToCartesian(double r, double theta, double phi)
         {
             double y = r * Math.Cos(phi);
@@ -479,7 +475,7 @@ namespace WPFPlayground
         #endregion
 
         #region Garden
-        // Define the model.
+        /// Define the model.
         void DefineModelGarden()
         {
             Width = 700;
@@ -660,7 +656,7 @@ namespace WPFPlayground
             _group.Children.Add(sky3Model);
         }
 
-        // Add a rectangle with texture coordinates to the mesh.
+        /// Add a rectangle with texture coordinates to the mesh.
         void AddRectangle(MeshGeometry3D mesh, Point3D p1, Point3D p2, Point3D p3, Point3D p4)
         {
             int index = mesh.Positions.Count;

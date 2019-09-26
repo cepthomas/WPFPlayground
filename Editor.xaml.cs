@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace WPFPlayground
 {
     /// <summary>
-    /// Interaction logic for Editor.xaml
+    /// User settings editor.
     /// </summary>
     public partial class Editor : Window
     {
@@ -36,14 +36,14 @@ namespace WPFPlayground
             myPropGrid.SelectedObject = _settingsTemp;
         }
 
-        private void OnOkButtonClicked(object sender, RoutedEventArgs e)
+        private void OnOkButton_Clicked(object sender, RoutedEventArgs e)
         {
             _settingsTemp.CopyTo(Settings);
             DialogResult = true;
             Close();
         }
 
-        private void OnCancelButtonClicked(object sender, RoutedEventArgs e)
+        private void OnCancelButton_Clicked(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             // Restore

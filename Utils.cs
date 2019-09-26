@@ -18,22 +18,20 @@ namespace WPFPlayground
             return System.IO.Path.GetDirectoryName(path);
         }
 
-        // Both the visual tree and logical tree are synchronized with the current set of application elements,
-        // reflecting any addition, deletion, or modification of elements. However, the trees present different
-        // views of the application. Unlike the visual tree, the logical tree does not expand a control's
-        // ContentPresenter element. This means there is not a direct one-to-one correspondence between a
-        // logical tree and a visual tree for the same set of objects. In fact, invoking the LogicalTreeHelper
-        // object's GetChildren method and the VisualTreeHelper object's GetChild method using the same element
-        // as a parameter yields differing results.
-
-
+        /// Both the visual tree and logical tree are synchronized with the current set of application elements,
+        /// reflecting any addition, deletion, or modification of elements. However, the trees present different
+        /// views of the application. Unlike the visual tree, the logical tree does not expand a control's
+        /// ContentPresenter element. This means there is not a direct one-to-one correspondence between a
+        /// logical tree and a visual tree for the same set of objects. In fact, invoking the LogicalTreeHelper
+        /// object's GetChildren method and the VisualTreeHelper object's GetChild method using the same element
+        /// as a parameter yields differing results.
         static public void RetrieveDrawing(Visual v)
         {
             DrawingGroup drawingGroup = VisualTreeHelper.GetDrawing(v);
             EnumDrawingGroup(drawingGroup);
         }
 
-        // Enumerate the drawings in the DrawingGroup.
+        /// Enumerate the drawings in the DrawingGroup.
         static public void EnumDrawingGroup(DrawingGroup drawingGroup)
         {
             DrawingCollection dc = drawingGroup.Children;
@@ -65,7 +63,7 @@ namespace WPFPlayground
             }
         }
 
-        // Enumerate all the descendants of the visual object.
+        /// Enumerate all the descendants of the visual object.
         static public void EnumVisual(Visual myVisual)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(myVisual); i++)

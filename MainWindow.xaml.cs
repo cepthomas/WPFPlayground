@@ -67,7 +67,6 @@ namespace WPFPlayground
         void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AddInfoLine($"Window_SizeChanged");
-
             _settings.MainWindowInfo.FromWindow(this);
         }
 
@@ -100,7 +99,7 @@ namespace WPFPlayground
         }
         #endregion
 
-
+        #region Timer handlers
         void FastTimer_Tick(object sender, EventArgs e)
         {
             _vhd.Update();
@@ -131,7 +130,9 @@ namespace WPFPlayground
 
             myCanvasShape.Children.Add(rect);
         }
+        #endregion
 
+        #region Event handlers
         void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MyViewModel vm = DataContext as MyViewModel;
@@ -142,12 +143,6 @@ namespace WPFPlayground
             {
                 vm.MyVal--;
             }
-        }
-
-        void AddInfoLine(string s)
-        {
-            infobox.AppendText($"{s}{Environment.NewLine}");
-            infobox.ScrollToEnd();
         }
 
         void OnSettingsClicked(object sender, RoutedEventArgs e)
@@ -161,5 +156,14 @@ namespace WPFPlayground
                 _settings.Save();
             }
         }
+        #endregion
+
+        #region Misc functions
+        void AddInfoLine(string s)
+        {
+            infobox.AppendText($"{s}{Environment.NewLine}");
+            infobox.ScrollToEnd();
+        }
+        #endregion
     }
 }

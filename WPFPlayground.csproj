@@ -69,6 +69,7 @@
       <DependentUpon>MyAnimation.xaml</DependentUpon>
     </Compile>
     <Compile Include="MyVisualHost.cs" />
+    <Compile Include="MyVisualHostStaticHitTest.cs" />
     <Compile Include="ThreeDee.xaml.cs">
       <DependentUpon>ThreeDee.xaml</DependentUpon>
     </Compile>

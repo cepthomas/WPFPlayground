@@ -10,7 +10,9 @@ using System.Windows.Input;
 
 namespace WPFPlayground
 {
-    ////// Common stuff for MV.
+    /// <summary>
+    /// Common stuff for MV.
+    /// </summary>
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -25,7 +27,9 @@ namespace WPFPlayground
         }
     }
 
-    ////// Makes command neat and clean.
+    /// <summary>
+    /// Makes command neat and clean.
+    /// </summary>
     public class RelayCommand : ICommand
     {
         private Predicate<object> _canExecute;
