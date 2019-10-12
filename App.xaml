@@ -4,10 +4,40 @@
              xmlns:local="clr-namespace:WPFPlayground"
              StartupUri="ThreeDee.xaml"
              >
-    <!-- MyAnimation ThreeDee  MainWindow -->
+             <!-- MyAnimation ThreeDee  MainWindow -->
              
     <Application.Resources>
-         
+
+        <!--Some brushes-->
+        <LinearGradientBrush x:Key="NormalBrush" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="Red" Offset="0.0"/>
+            <GradientStop Color="Green" Offset="1.0"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="PressedBrush" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="Blue" Offset="0.0"/>
+            <GradientStop Color="Yellow" Offset="1.0"/>
+        </LinearGradientBrush>
+
+
+        <!--A Style that affects all TextBlocks-->
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.Setters>
+                        <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+                    </Trigger.Setters>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Application.Resources>
     
 </Application>

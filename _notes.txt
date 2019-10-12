@@ -1,7 +1,13 @@
 
 
-Afterword
-Index
+
+To share a set of resources, including styles and templates, across applications, you can create a XAML file and define a ResourceDictionary that includes reference to a shared.xaml file:
+<ResourceDictionary.MergedDictionaries>
+  <ResourceDictionary Source="Shared.xaml" />
+</ResourceDictionary.MergedDictionaries>
+It is the sharing of shared.xaml, which itself defines a ResourceDictionary that contains a set of style and brush resources, that enables the controls in an application to have a consistent look.
+For more information, see Merged Resource Dictionaries.
+
 
 
 -------------------------------------------------------------------
