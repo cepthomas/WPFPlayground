@@ -165,5 +165,12 @@ namespace WPFPlayground
             infobox.ScrollToEnd();
         }
         #endregion
+
+
+
+
+
+
+        
     }
 }
