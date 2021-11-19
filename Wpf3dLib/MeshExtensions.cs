@@ -166,7 +166,7 @@ namespace Wpf3dLib
             params Point3D[] points)
         {
             // Make a point dictionary.
-            if (pointDict == null) pointDict = new Dictionary<Point3D, int>();
+            if (pointDict is null) pointDict = new Dictionary<Point3D, int>();
 
             // Get the first two point indices.
             int indexA, indexB, indexC;

@@ -40,7 +40,7 @@ namespace Wpf3dLib
         public static bool operator ==(Edge edge1, Edge edge2)
         {
             if (ReferenceEquals(edge1, edge2)) return true;
-            if ((edge1 == null)) return false;
+            if ((edge1 is null)) return false;
             return edge1.Equals(edge2);
         }
         public static bool operator !=(Edge edge1, Edge edge2)
