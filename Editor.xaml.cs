@@ -20,20 +20,21 @@ namespace WPFPlayground
     /// </summary>
     public partial class Editor : Window
     {
-        public UserSettings Settings { get; set; } = null;
+        public UserSettings Settings { get; set; } = new();
 
-        UserSettings _settingsTemp = new UserSettings();
+        UserSettings _settingsTemp = new();
 
         public Editor()
         {
             InitializeComponent();
-        }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
             // Make a copy for editing. Probably should use binding?
             _settingsTemp.CopyFrom(Settings);
             myPropGrid.SelectedObject = _settingsTemp;
+        }
+
+        void Window_Loaded(object sender, EventArgs e)
+        {
         }
 
         private void OnOkButton_Clicked(object sender, RoutedEventArgs e)

@@ -15,9 +15,9 @@ namespace WPFPlayground
     /// </summary>
     public class ViewModelBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        protected void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
@@ -32,8 +32,8 @@ namespace WPFPlayground
     /// </summary>
     public class RelayCommand : ICommand
     {
-        private Predicate<object> _canExecute;
-        private Action<object> _execute;
+        readonly Predicate<object> _canExecute;
+        readonly Action<object> _execute;
 
         public RelayCommand(Predicate<object> canExecute, Action<object> execute)
         {
@@ -41,20 +41,23 @@ namespace WPFPlayground
             _execute = execute;
         }
 
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
-            return _canExecute(parameter);
+            return parameter is not null && _canExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
-            _execute(parameter);
+            if(parameter is not null)
+            {
+                _execute(parameter);
+            }
         }
     }
 }

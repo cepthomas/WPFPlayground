@@ -29,9 +29,9 @@ namespace WPFPlayground
     {
         DispatcherTimer _slowTimer = new DispatcherTimer();
         DispatcherTimer _fastTimer = new DispatcherTimer();
-        UserSettings _settings = null;
-        Random _rand = new Random();
-        MyVisualHost _vhd = new MyVisualHost();
+        UserSettings _settings;
+        Random _rand = new();
+        MyVisualHost _vhd = new();
 
         #region Lifecycle
         public MainWindow()
@@ -57,6 +57,11 @@ namespace WPFPlayground
             // Raw drawing.
             myCanvasDrawing.Children.Add(_vhd);
             myCanvasDrawingStatic.Children.Add(new MyVisualHostStaticHitTest());
+        }
+
+        void Window_Loaded(object sender, EventArgs e)
+        {
+            AddInfoLine($"Window_Loaded");
         }
 
         void Window_Initialized(object sender, EventArgs e)
@@ -100,19 +105,19 @@ namespace WPFPlayground
         #endregion
 
         #region Timer handlers
-        void FastTimer_Tick(object sender, EventArgs e)
+        void FastTimer_Tick(object? sender, EventArgs e)
         {
             _vhd.Update();
         }
 
-        void SlowTimer_Tick(object sender, EventArgs e)
+        void SlowTimer_Tick(object? sender, EventArgs e)
         {
             const int NUM_RECTS = 20;
             //myCanvasShape.Children.Clear();
 
             Color clr = Color.FromRgb((byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255));
 
-            Rectangle rect = new Rectangle
+            Rectangle rect = new()
             {
                 Width = 100,
                 Height = 50,
@@ -133,9 +138,9 @@ namespace WPFPlayground
         #endregion
 
         #region Event handlers
-        void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
+        void Ellipse_MouseDown(object? sender, MouseButtonEventArgs e)
         {
-            MyViewModel vm = DataContext as MyViewModel;
+            MyViewModel vm = (DataContext as MyViewModel)!;
 
             AddInfoLine($"ellipse1_MouseDown:{vm.MyVal}");
 
@@ -145,11 +150,10 @@ namespace WPFPlayground
             }
         }
 
-        void OnSettingsClicked(object sender, RoutedEventArgs e)
+        void OnSettingsClicked(object? sender, RoutedEventArgs e)
         {
-            var dlg = new Editor { Owner = this, Settings = _settings };
-
-            if (dlg.ShowDialog().Value)
+            var dlg = new Editor() { Owner = this, Settings = _settings };
+            if (dlg.ShowDialog() == true)
             {
                 // Changes made - apply.
                 _settings = dlg.Settings;
@@ -165,12 +169,5 @@ namespace WPFPlayground
             infobox.ScrollToEnd();
         }
         #endregion
-
-
-
-
-
-
-        
     }
 }

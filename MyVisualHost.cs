@@ -14,7 +14,7 @@ namespace WPFPlayground
     {
         // Create a collection of child visual objects.
         readonly VisualCollection _children;
-        Random _rand = new Random();
+        Random _rand = new();
 
         public MyVisualHost()
         {
@@ -29,13 +29,13 @@ namespace WPFPlayground
             const int NUM_DOTS = 100;
 
             // Add a dot in a random color/location.
-            Canvas c = Parent as Canvas;
+            Canvas? c = Parent as Canvas;
             Color clr = Color.FromRgb((byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255));
-            int x = _rand.Next(0, (int)c.ActualWidth);
-            int y = _rand.Next(0, (int)c.ActualHeight);
+            int x = _rand.Next(0, (int)c!.ActualWidth);
+            int y = _rand.Next(0, (int)c!.ActualHeight);
 
             // Draw it.
-            DrawingVisual vis = new DrawingVisual();
+            DrawingVisual vis = new();
             DrawingContext context = vis.RenderOpen();
             context.DrawEllipse(new SolidColorBrush(clr), null, new Point(x, y), 5.0, 5.0);
             // Close the DrawingContext to persist changes to the DrawingVisual.

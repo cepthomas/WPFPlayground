@@ -22,7 +22,7 @@ namespace WPFPlayground
 
         public MyVisualHostStaticHitTest()
         {
-            _children = new VisualCollection(this);
+            _children = new(this);
 
             // Add the event handlers.
             MouseLeftButtonUp += MyVisualHost_MouseLeftButtonUp;
@@ -31,9 +31,9 @@ namespace WPFPlayground
 
         private void MyVisualHostStatic_Loaded(object sender, RoutedEventArgs e)
         {
-            Canvas c = Parent as Canvas;
-            _width = c.ActualWidth;
-            _height = c.ActualHeight;
+            Canvas? c = Parent as Canvas;
+            _width = c!.ActualWidth;
+            _height = c!.ActualHeight;
 
             _children.Add(CreateDrawingVisualRectangle());
             _children.Add(CreateDrawingVisualText());
