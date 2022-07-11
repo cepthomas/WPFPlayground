@@ -12,7 +12,8 @@
     ContentRendered="Window_ContentRendered"
     Initialized="Window_Initialized"
     Loaded="Window_Loaded"
-    SizeChanged="Window_SizeChanged" Closed="Window_Closed" Closing="Window_Closing">
+    Closed="Window_Closed"
+    Closing="Window_Closing">
 
     <Window.DataContext>
         <local:MyViewModel/>

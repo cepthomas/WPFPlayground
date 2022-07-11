@@ -39,12 +39,7 @@ namespace WPFPlayground
             InitializeComponent();
             AddInfoLine($"MainWindow constructor");
 
-            _settings = UserSettings.Load(System.IO.Path.Combine(Utils.GetSourcePath(), "settings.json"));
-
-            Left = _settings.MainWindowInfo.X;
-            Top = _settings.MainWindowInfo.Y;
-            Width = _settings.MainWindowInfo.Width;
-            Height = _settings.MainWindowInfo.Height;
+            _settings = new();
 
             _slowTimer.Tick += new EventHandler(SlowTimer_Tick);
             _slowTimer.Interval = TimeSpan.FromSeconds(1.0);
@@ -69,12 +64,6 @@ namespace WPFPlayground
             AddInfoLine($"Window_Initialized");
         }
 
-        void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            AddInfoLine($"Window_SizeChanged");
-            _settings.MainWindowInfo.FromWindow(this);
-        }
-
         void Window_Loaded(object sender, RoutedEventArgs e)
         {
             AddInfoLine($"Window_Loaded");
@@ -88,7 +77,6 @@ namespace WPFPlayground
         void Window_Closed(object sender, EventArgs e)
         {
             AddInfoLine($"Window_Closed");
-            _settings.Save();
         }
 
         void Window_Closing(object sender, CancelEventArgs e)
@@ -152,13 +140,7 @@ namespace WPFPlayground
 
         void OnSettingsClicked(object? sender, RoutedEventArgs e)
         {
-            var dlg = new Editor() { Owner = this, Settings = _settings };
-            if (dlg.ShowDialog() == true)
-            {
-                // Changes made - apply.
-                _settings = dlg.Settings;
-                _settings.Save();
-            }
+            AddInfoLine($"Sorry, there are no settings");
         }
         #endregion
 
