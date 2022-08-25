@@ -10,7 +10,7 @@ using System.Windows;
 namespace WPFPlayground
 {
     [Serializable]
-    public class UserSettings
+    public sealed class UserSettings
     {
         #region Persisted editable properties
         [DisplayName("Editor Font"), Description("The font to use for editors etc."), Browsable(true)]
