@@ -30,13 +30,13 @@ namespace WPFPlayground
         int _lastTick = Environment.TickCount;
 
         // The main model group.
-        Model3DGroup? _group = null;
+        Model3DGroup _group;
 
         // The camera.
-        PerspectiveCamera _camera = null;
+        PerspectiveCamera _camera;
 
         // The camera controller.
-        SphericalCameraController _cameraController = null;
+        SphericalCameraController _cameraController;
 
         // Where the resources be.
         string _resDir = "";
@@ -47,6 +47,12 @@ namespace WPFPlayground
 
             Left = 200;
             Top = 10;
+
+            _group = new Model3DGroup();
+
+            // Define the camera.
+            _camera = new() { FieldOfView = 60 };
+            _cameraController = new SphericalCameraController(_camera, mainViewport, this, mainGrid, mainGrid);
         }
 
         void Window_Loaded(object sender, RoutedEventArgs e)
@@ -54,14 +60,10 @@ namespace WPFPlayground
             _resDir = System.IO.Path.Combine(Utils.GetSourcePath(), "Resources");
 
             // Define WPF objects.
-            ModelVisual3D visual3d = new ModelVisual3D();
-            _group = new Model3DGroup();
+            ModelVisual3D visual3d = new();
             visual3d.Content = _group;
             mainViewport.Children.Add(visual3d);
 
-            // Define the camera.
-            _camera = new PerspectiveCamera { FieldOfView = 60 };
-            _cameraController = new SphericalCameraController(_camera, mainViewport, this, mainGrid, mainGrid);
 
             // Define the lights.
             Color darker = Color.FromArgb(255, 96, 96, 96);
@@ -82,7 +84,7 @@ namespace WPFPlayground
             Height = 700;
 
             // Rock sections.
-            MeshGeometry3D rockMesh = new MeshGeometry3D();
+            MeshGeometry3D rockMesh = new();
             AddRectangle(rockMesh,
                 new Point3D(-3, 0, -1),
                 new Point3D(-3, 0, +1),
@@ -99,10 +101,11 @@ namespace WPFPlayground
                 new Point3D(+1, 0, +3),
                 new Point3D(+1, 0, +1));
 
-            ImageBrush rockBrush = new ImageBrush();
+            ImageBrush rockBrush = new();
             rockBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"rocks.jpg"), UriKind.Relative));
-            Material rockMaterial = new DiffuseMaterial(rockBrush);
-            GeometryModel3D rockModel = new GeometryModel3D(rockMesh, rockMaterial);
+            var rockMaterial = new DiffuseMaterial(rockBrush);
+            GeometryModel3D rockModel = new(rockMesh, rockMaterial);
+
             _group.Children.Add(rockModel);
 
             // Grass sections.

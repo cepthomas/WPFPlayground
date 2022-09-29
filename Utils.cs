@@ -15,7 +15,7 @@ namespace WPFPlayground
     {
         public static string GetSourcePath([CallerFilePath] string path = "")
         {
-            return System.IO.Path.GetDirectoryName(path);
+            return System.IO.Path.GetDirectoryName(path)!;
         }
 
         /// Both the visual tree and logical tree are synchronized with the current set of application elements,

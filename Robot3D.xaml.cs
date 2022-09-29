@@ -32,18 +32,18 @@ namespace WPFPlayground
         int _lastTick = Environment.TickCount;
 
         // The main model group.
-        Model3DGroup? _group = null;
+        Model3DGroup _group;
 
         // The robot's Model3DGroups.
-        Model3DGroup _groupRobot, _groupHead, _groupNeck, _groupShoulder, _groupBack,
+        Model3DGroup? _groupRobot, _groupHead, _groupNeck, _groupShoulder, _groupBack,
             _groupLeftUpperArm, _groupRightUpperArm, _groupLeftLowerArm, _groupRightLowerArm,
             _groupLeftUpperLeg, _groupRightUpperLeg, _groupLeftLowerLeg, _groupRightLowerLeg;
 
         // The camera.
-        PerspectiveCamera _camera = null;
+        PerspectiveCamera _camera;
 
         // The camera controller.
-        SphericalCameraController _cameraController = null;
+        SphericalCameraController _cameraController;
 
         // Where the resources be.
         string _resDir = "";
@@ -54,6 +54,12 @@ namespace WPFPlayground
 
             Left = 200;
             Top = 10;
+
+            _group = new Model3DGroup();
+
+            // Define the camera.
+            _camera = new PerspectiveCamera { FieldOfView = 60 };
+            _cameraController = new SphericalCameraController(_camera, mainViewport, this, mainGrid, mainGrid);
         }
 
         void Window_Loaded(object sender, RoutedEventArgs e)
@@ -62,13 +68,8 @@ namespace WPFPlayground
 
             // Define WPF objects.
             ModelVisual3D visual3d = new ModelVisual3D();
-            _group = new Model3DGroup();
             visual3d.Content = _group;
             mainViewport.Children.Add(visual3d);
-
-            // Define the camera.
-            _camera = new PerspectiveCamera { FieldOfView = 60 };
-            _cameraController = new SphericalCameraController(_camera, mainViewport, this, mainGrid, mainGrid);
 
             // Define the lights.
             Color darker = Color.FromArgb(255, 96, 96, 96);
@@ -341,11 +342,11 @@ namespace WPFPlayground
         /// Join two bones together.
         Model3DGroup JoinBones(Model3DGroup parentGroup, Transform3D offset)
         {
-            Model3DGroup offsetGroup = new Model3DGroup();
+            Model3DGroup offsetGroup = new();
             offsetGroup.Transform = offset;
             parentGroup.Children.Add(offsetGroup);
 
-            Model3DGroup result = new Model3DGroup();
+            Model3DGroup result = new();
             offsetGroup.Children.Add(result);
             return result;
         }

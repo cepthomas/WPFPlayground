@@ -33,7 +33,7 @@ namespace Wpf3dLib
 
         public bool Equals(Edge other)
         {
-            if (ReferenceEquals(other, null)) return false;
+            if (other is null) return false;
             if ((Point1 == other.Point1) && (Point2 == other.Point2)) return true;
             return false;
         }
@@ -49,7 +49,7 @@ namespace Wpf3dLib
         }
         public override bool Equals(object obj)
         {
-            if (!(obj is Edge)) return false;
+            if (obj is not Edge) return false;
             return Equals(obj as Edge);
         }
 

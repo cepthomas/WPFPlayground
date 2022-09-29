@@ -81,7 +81,7 @@ namespace Wpf3dLib
         // Verify that the points in a polygon are the same distance apart.
         public static void VerifyPolygon(params Point3D[] points)
         {
-            double d0 = (points[points.Length - 1] - points[0]).Length;
+            double d0 = (points[^1] - points[0]).Length;
             for (int i = 1; i < points.Length; i++)
             {
                 double d1 = (points[i] - points[i - 1]).Length;
@@ -158,26 +158,26 @@ namespace Wpf3dLib
 
         // Dodecahedron.
         // Dodecahedron intermediate values.
-        private static double ds = 2;
-        //private static double dt1 = 2 * Math.PI / 5;    // Not actually used.
-        private static double dt2 = Math.PI / 10;
-        private static double dt3 = 3 * Math.PI / 10;
-        private static double dt4 = Math.PI / 5;
-        private static double dd1 = ds / 2 / Math.Sin(dt4);
-        private static double dd2 = dd1 * Math.Cos(dt4);
-        private static double dd3 = dd1 * Math.Cos(dt2);
-        private static double dd4 = dd1 * Math.Sin(dt2);
-        private static double dFx =
+        readonly static double ds = 2;
+        //readonly static double dt1 = 2 * Math.PI / 5;    // Not actually used.
+        readonly static double dt2 = Math.PI / 10;
+        readonly static double dt3 = 3 * Math.PI / 10;
+        readonly static double dt4 = Math.PI / 5;
+        readonly static double dd1 = ds / 2 / Math.Sin(dt4);
+        readonly static double dd2 = dd1 * Math.Cos(dt4);
+        readonly static double dd3 = dd1 * Math.Cos(dt2);
+        readonly static double dd4 = dd1 * Math.Sin(dt2);
+        readonly static double dFx =
             (ds * ds - (2 * dd3) * (2 * dd3) -
                 (dd1 * dd1 - dd3 * dd3 - dd4 * dd4)) /
             (2 * (dd4 - dd1));
-        private static double dd5 = Math.Sqrt(
+        readonly static double dd5 = Math.Sqrt(
             0.5 * (ds * ds + (2 * dd3) * (2 * dd3) -
                 (dd1 - dFx) * (dd1 - dFx) -
                 (dd4 - dFx) * (dd4 - dFx) - dd3 * dd3));
-        private static double dFy = (dFx * dFx - dd1 * dd1 -
+        readonly static double dFy = (dFx * dFx - dd1 * dd1 -
             dd5 * dd5) / (2 * dd5);
-        private static double dAy = dd5 + dFy;
+        readonly static double dAy = dd5 + dFy;
 
         // Calculate the dodecahedron vertices.
         public static void DodecahedronPoints(
@@ -221,19 +221,19 @@ namespace Wpf3dLib
 
         // Icosahedron.
         // Icosahedron intermediate values.
-        private static double s = 2;
-        //private static double t1 = 2 * Math.PI / 5;     // Not actually used.
-        private static double t2 = Math.PI / 10;
-        private static double t4 = Math.PI / 5;
-        //private static double t3 = -3 * Math.PI / 10;   // Not actually used.
-        private static double r = (s / 2) / Math.Sin(t4);
-        private static double h = r * Math.Cos(t4);
-        private static double h1 = Math.Sqrt(s * s - r * r);
-        private static double h2 = Math.Sqrt((h + r) * (h + r) - h * h);
-        private static double cx = r * Math.Sin(t2);
-        private static double cz = r * Math.Cos(t2);
-        private static double y2 = (h2 - h1) / 2;
-        private static double y1 = y2 + h1;
+        readonly static double s = 2;
+        //readonly static double t1 = 2 * Math.PI / 5;     // Not actually used.
+        readonly static double t2 = Math.PI / 10;
+        readonly static double t4 = Math.PI / 5;
+        //readonly static double t3 = -3 * Math.PI / 10;   // Not actually used.
+        readonly static double r = (s / 2) / Math.Sin(t4);
+        readonly static double h = r * Math.Cos(t4);
+        readonly static double h1 = Math.Sqrt(s * s - r * r);
+        readonly static double h2 = Math.Sqrt((h + r) * (h + r) - h * h);
+        readonly static double cx = r * Math.Sin(t2);
+        readonly static double cz = r * Math.Cos(t2);
+        readonly static double y2 = (h2 - h1) / 2;
+        readonly static double y1 = y2 + h1;
 
         // Calculate the icosahedron vertices.
         public static void IcosahedronPoints(
@@ -280,13 +280,9 @@ namespace Wpf3dLib
             Point3D p3a, Point3D p3b, Point3D p3c)
         {
             // Get the plane equations.
-            double
-                A1, B1, C1, D1,
-                A2, B2, C2, D2,
-                A3, B3, C3, D3;
-            GetPlaneEquation(out A1, out B1, out C1, out D1, p1a, p1b, p1c);
-            GetPlaneEquation(out A2, out B2, out C2, out D2, p2a, p2b, p2c);
-            GetPlaneEquation(out A3, out B3, out C3, out D3, p3a, p3b, p3c);
+            GetPlaneEquation(out double A1, out double B1, out double C1, out double D1, p1a, p1b, p1c);
+            GetPlaneEquation(out double A2, out double B2, out double C2, out double D2, p2a, p2b, p2c);
+            GetPlaneEquation(out double A3, out double B3, out double C3, out double D3, p3a, p3b, p3c);
 
             // Find the point of intersection.
             return Intersect3Planes(
@@ -359,9 +355,7 @@ namespace Wpf3dLib
                             // This row will work. Swap them.
                             for (int c = 0; c <= numCols; c++)
                             {
-                                double tmp = arr[r, c];
-                                arr[r, c] = arr[r2, c];
-                                arr[r2, c] = tmp;
+                                (arr[r2, c], arr[r, c]) = (arr[r, c], arr[r2, c]);
                             }
                             break;
                         }

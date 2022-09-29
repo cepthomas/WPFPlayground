@@ -100,7 +100,7 @@ namespace Wpf3dLib
         // Make a MaterialGroup from a list of materials.
         public static MaterialGroup MakeMaterialGroup(params Material[] materials)
         {
-            MaterialGroup group = new MaterialGroup();
+            MaterialGroup group = new();
             foreach (Material material in materials)
                 group.Children.Add(material);
             return group;

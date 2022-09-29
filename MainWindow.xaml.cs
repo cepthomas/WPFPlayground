@@ -27,11 +27,11 @@ namespace WPFPlayground
     /// </summary>
     public partial class MainWindow : Window
     {
-        DispatcherTimer _slowTimer = new DispatcherTimer();
-        DispatcherTimer _fastTimer = new DispatcherTimer();
-        UserSettings _settings;
-        Random _rand = new();
-        MyVisualHost _vhd = new();
+        readonly DispatcherTimer _slowTimer = new();
+        readonly DispatcherTimer _fastTimer = new();
+        //readonly UserSettings _settings = new();
+        readonly Random _rand = new();
+        readonly MyVisualHost _vhd = new();
 
         #region Lifecycle
         public MainWindow()
@@ -39,7 +39,7 @@ namespace WPFPlayground
             InitializeComponent();
             AddInfoLine($"MainWindow constructor");
 
-            _settings = new();
+            //_settings = new();
 
             _slowTimer.Tick += new EventHandler(SlowTimer_Tick);
             _slowTimer.Interval = TimeSpan.FromSeconds(1.0);

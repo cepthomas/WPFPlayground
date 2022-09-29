@@ -21,8 +21,8 @@ namespace WPFPlayground
     /// </summary>
     public partial class MyAnimation : Window
     {
-        readonly Random _rand = new Random();
-        int _lastTick = Environment.TickCount;
+        readonly Random _rand = new();
+        //int _lastTick = Environment.TickCount;
 
         public MyAnimation()
         {
