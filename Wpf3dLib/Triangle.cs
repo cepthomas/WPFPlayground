@@ -28,6 +28,7 @@ namespace Wpf3dLib
 
             // Use vector arithmetic to create the points.
             List<Triangle> triangles = new();
+            
             for (int row = 0; row < numRows; row++)
             {
                 for (int col = 0; col <= row; col++)

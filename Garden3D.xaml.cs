@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf3dLib;
 
+
 namespace WPFPlayground
 {
     /// <summary>
@@ -64,7 +65,6 @@ namespace WPFPlayground
             visual3d.Content = _group;
             mainViewport.Children.Add(visual3d);
 
-
             // Define the lights.
             Color darker = Color.FromArgb(255, 96, 96, 96);
             Color dark = Color.FromArgb(255, 128, 128, 128);
@@ -73,7 +73,7 @@ namespace WPFPlayground
             _group.Children.Add(new DirectionalLight(dark, new Vector3D( 1, -3, -2)));
             _group.Children.Add(new DirectionalLight(dark, new Vector3D(-1,  3,  2)));
 
-            ///// Define the model.
+            // Define the model.
             DefineModelGarden();
         }
 

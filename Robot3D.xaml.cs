@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf3dLib;
 
+
 namespace WPFPlayground
 {
     /// <summary>
@@ -35,9 +36,19 @@ namespace WPFPlayground
         readonly Model3DGroup _group;
 
         // The robot's Model3DGroups.
-        Model3DGroup? _groupRobot, _groupHead, _groupNeck, _groupShoulder, _groupBack,
-            _groupLeftUpperArm, _groupRightUpperArm, _groupLeftLowerArm, _groupRightLowerArm,
-            _groupLeftUpperLeg, _groupRightUpperLeg, _groupLeftLowerLeg, _groupRightLowerLeg;
+        Model3DGroup _groupRobot = new();
+        Model3DGroup _groupHead = new();
+        Model3DGroup _groupNeck = new();
+        Model3DGroup _groupShoulder = new();
+        Model3DGroup _groupBack = new();
+        Model3DGroup _groupLeftUpperArm = new();
+        Model3DGroup _groupRightUpperArm = new();
+        Model3DGroup _groupLeftLowerArm = new();
+        Model3DGroup _groupRightLowerArm = new();
+        Model3DGroup _groupLeftUpperLeg = new();
+        Model3DGroup _groupRightUpperLeg = new();
+        Model3DGroup _groupLeftLowerLeg = new();
+        Model3DGroup _groupRightLowerLeg = new();
 
         // The camera.
         readonly PerspectiveCamera _camera;
@@ -340,7 +351,7 @@ namespace WPFPlayground
         }
 
         /// Join two bones together.
-        Model3DGroup JoinBones(Model3DGroup parentGroup, Transform3D offset)
+        Model3DGroup JoinBones(Model3DGroup parentGroup, Transform3D? offset)
         {
             Model3DGroup offsetGroup = new();
             offsetGroup.Transform = offset;

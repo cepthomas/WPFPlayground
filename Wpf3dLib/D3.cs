@@ -41,8 +41,7 @@ namespace Wpf3dLib
             return new Vector3D(0, 0, length);
         }
 
-        // Make texture coordinates for a polygon.
-        // The first point is at the top.
+        // Make texture coordinates for a polygon. The first point is at the top.
         public static Point[] MakePolygonTextureCoords(int numSides)
         {
             double dtheta = 2 * Math.PI / numSides;

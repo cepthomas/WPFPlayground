@@ -68,8 +68,7 @@ namespace Wpf3dLib
         }
 
         // Constructor.
-        public SphericalCameraController(PerspectiveCamera camera, Viewport3D viewport,
-            UIElement keyboardControl, UIElement wheelControl, UIElement mouseControl)
+        public SphericalCameraController(PerspectiveCamera camera, Viewport3D viewport, UIElement keyboardControl, UIElement wheelControl, UIElement mouseControl)
         {
             TheCamera = camera;
             viewport.Camera = TheCamera;
@@ -92,14 +91,17 @@ namespace Wpf3dLib
             CameraR += amount;
             if (CameraR < CameraDR) CameraR = CameraDR;
         }
+
         public void IncreaseR()
         {
             IncreaseR(CameraDR);
         }
+
         public void DecreaseR(double amount)
         {
             IncreaseR(-amount);
         }
+
         public void DecreaseR()
         {
             IncreaseR(-CameraDR);
@@ -109,14 +111,17 @@ namespace Wpf3dLib
         {
             CameraTheta += amount;
         }
+
         public void IncreaseTheta()
         {
             IncreaseTheta(CameraDTheta);
         }
+
         public void DecreaseTheta(double amount)
         {
             IncreaseTheta(-amount);
         }
+
         public void DecreaseTheta()
         {
             IncreaseTheta(-CameraDTheta);
@@ -126,14 +131,17 @@ namespace Wpf3dLib
         {
             CameraPhi += amount;
         }
+
         public void IncreasePhi()
         {
             IncreasePhi(CameraDPhi);
         }
+
         public void DecreasePhi(double amount)
         {
             IncreasePhi(-amount);
         }
+
         public void DecreasePhi()
         {
             IncreasePhi(-CameraDPhi);
@@ -224,16 +232,15 @@ namespace Wpf3dLib
 
             // Look toward the origin.
             TheCamera.LookDirection = new Vector3D(-x, -y, -z);
-TheCamera.FarPlaneDistance = 1000000;//@
-TheCamera.NearPlaneDistance = 0.0001;//@
+            TheCamera.FarPlaneDistance = 1000000;//@
+            TheCamera.NearPlaneDistance = 0.0001;//@
 
             // Set the Up direction.
             TheCamera.UpDirection = new Vector3D(0, 1, 0);
         }
 
         // Convert from Cartesian to spherical coordinates.
-        private void CartesianToSpherical(double x, double y, double z,
-            out double r, out double theta, out double phi)
+        private void CartesianToSpherical(double x, double y, double z, out double r, out double theta, out double phi)
         {
             r = Math.Sqrt(x * x + y * y + z * z);
             double h = Math.Sqrt(x * x + z * z);
@@ -242,8 +249,7 @@ TheCamera.NearPlaneDistance = 0.0001;//@
         }
 
         // Convert from spherical to Cartesian coordinates.
-        private void SphericalToCartesian(double r, double theta, double phi,
-            out double x, out double y, out double z)
+        private void SphericalToCartesian(double r, double theta, double phi, out double x, out double y, out double z)
         {
             y = r * Math.Cos(phi);
             double h = r * Math.Sin(phi);

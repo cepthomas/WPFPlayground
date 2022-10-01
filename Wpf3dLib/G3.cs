@@ -13,8 +13,7 @@ namespace Wpf3dLib
         #region Polygons
 
         // Make points to define a regular polygon.
-        public static Point3D[] MakePolygonPoints(int numSides,
-            Point3D center, Vector3D vx, Vector3D vy)
+        public static Point3D[] MakePolygonPoints(int numSides, Point3D center, Vector3D vx, Vector3D vy)
         {
             // Generate the points.
             Point3D[] points = new Point3D[numSides];
@@ -27,11 +26,9 @@ namespace Wpf3dLib
             }
             return points;
         }
-
         #endregion Polygons
 
         #region Spheres
-
         // Return a point on a sphere.
         public static Point3D SpherePoint(Point3D center, double r, double theta, double phi)
         {
@@ -41,11 +38,9 @@ namespace Wpf3dLib
             double z = h * Math.Cos(theta);
             return center + new Vector3D(x, y, z);
         }
-
         #endregion Spheres
 
         #region Tori
-
         // Return a point on a torus.
         public static Point3D TorusPoint(Point3D center, double R, double r, double theta, double phi)
         {
@@ -60,11 +55,9 @@ namespace Wpf3dLib
         {
             return (Vector3D)TorusPoint(center, 0, r, theta, phi);
         }
-
         #endregion Tori
 
         #region Platonic Solids
-
         // Verify that the points are the same distance from the origin.
         public static void VerifyPoints(params Point3D[] points)
         {
@@ -73,8 +66,9 @@ namespace Wpf3dLib
             {
                 double d1 = (points[i] - D3.Origin).Length;
                 if (Math.Abs(d1 - d0) > 0.001)
-                    throw new Exception("VerifyPoints: Distance " +
-                        d1 + " not close enough to " + d0);
+                {
+                    throw new Exception("VerifyPoints: Distance " + d1 + " not close enough to " + d0);
+                }
             }
         }
 
@@ -86,37 +80,40 @@ namespace Wpf3dLib
             {
                 double d1 = (points[i] - points[i - 1]).Length;
                 if (Math.Abs(d1 - d0) > 0.001)
-                    throw new Exception("VerifyPolygon: Distance " +
-                        d1 + " not close enough to " + d0);
+                {
+                    throw new Exception("VerifyPolygon: Distance " + d1 + " not close enough to " + d0);
+                }
             }
         }
 
         // Tetrahedron.
-        public static void TetrahedronPoints(
-            out Point3D A, out Point3D B, out Point3D C, out Point3D D,
-            bool centered)
+        public static void TetrahedronPoints(out Point3D A, out Point3D B, out Point3D C, out Point3D D, bool centered)
         {
             double dy = 0;
-            if (centered) dy = 0.25 * Math.Sqrt(2.0 / 3.0);
+            if (centered)
+            {
+                dy = 0.25 * Math.Sqrt(2.0 / 3.0);
+            }
 
             A = new Point3D(0, Math.Sqrt(2.0 / 3.0) - dy, 0);
             B = new Point3D(1.0 / Math.Sqrt(3.0), -dy, 0);
             C = new Point3D(-1.0 / (2 * Math.Sqrt(3.0)), -dy, -1.0 / 2.0);
             D = new Point3D(-1.0 / (2 * Math.Sqrt(3.0)), -dy, 1.0 / 2.0);
         }
+
         public static double TetrahedronCircumradius()
         {
             return Math.Sqrt(2.0 / 3.0) * 0.75;
         }
+
         public static double TetrahedronInradius()
         {
             return Math.Sqrt(2.0 / 3.0) * 0.25;
         }
 
         // Cube.
-        public static void CubePoints(
-            out Point3D A, out Point3D B, out Point3D C, out Point3D D,
-            out Point3D E, out Point3D F, out Point3D G, out Point3D H)
+        public static void CubePoints(out Point3D A, out Point3D B, out Point3D C, out Point3D D,
+                                      out Point3D E, out Point3D F, out Point3D G, out Point3D H)
         {
             A = new Point3D(-1, +1, +1);
             B = new Point3D(+1, +1, +1);
@@ -127,6 +124,7 @@ namespace Wpf3dLib
             G = new Point3D(+1, -1, -1);
             H = new Point3D(-1, -1, -1);
         }
+
         public static double CubeCircumradius()
         {
             return Math.Sqrt(3.0);
@@ -137,8 +135,7 @@ namespace Wpf3dLib
         }
 
         // Octahedron.
-        public static void OctahedronPoints(out Point3D A, out Point3D B,
-            out Point3D C, out Point3D D, out Point3D E, out Point3D F)
+        public static void OctahedronPoints(out Point3D A, out Point3D B, out Point3D C, out Point3D D, out Point3D E, out Point3D F)
         {
             A = new Point3D(0, 1, 0);
             B = new Point3D(1, 0, 0);
@@ -147,10 +144,12 @@ namespace Wpf3dLib
             E = new Point3D(0, 0, 1);
             F = new Point3D(0, -1, 0);
         }
+
         public static double OctahedronCircumradius()
         {
             return 1;
         }
+
         public static double OctahedronInradius()
         {
             return Math.Sqrt(1.0 / 3.0);
@@ -167,16 +166,9 @@ namespace Wpf3dLib
         readonly static double dd2 = dd1 * Math.Cos(dt4);
         readonly static double dd3 = dd1 * Math.Cos(dt2);
         readonly static double dd4 = dd1 * Math.Sin(dt2);
-        readonly static double dFx =
-            (ds * ds - (2 * dd3) * (2 * dd3) -
-                (dd1 * dd1 - dd3 * dd3 - dd4 * dd4)) /
-            (2 * (dd4 - dd1));
-        readonly static double dd5 = Math.Sqrt(
-            0.5 * (ds * ds + (2 * dd3) * (2 * dd3) -
-                (dd1 - dFx) * (dd1 - dFx) -
-                (dd4 - dFx) * (dd4 - dFx) - dd3 * dd3));
-        readonly static double dFy = (dFx * dFx - dd1 * dd1 -
-            dd5 * dd5) / (2 * dd5);
+        readonly static double dFx = (ds * ds - (2 * dd3) * (2 * dd3) - (dd1 * dd1 - dd3 * dd3 - dd4 * dd4)) / (2 * (dd4 - dd1));
+        readonly static double dd5 = Math.Sqrt(0.5 * (ds * ds + (2 * dd3) * (2 * dd3) - (dd1 - dFx) * (dd1 - dFx) - (dd4 - dFx) * (dd4 - dFx) - dd3 * dd3));
+        readonly static double dFy = (dFx * dFx - dd1 * dd1 - dd5 * dd5) / (2 * dd5);
         readonly static double dAy = dd5 + dFy;
 
         // Calculate the dodecahedron vertices.
@@ -209,11 +201,13 @@ namespace Wpf3dLib
             S = new Point3D(-dd4, -dAy, -dd3);
             T = new Point3D(dd2, -dAy, -ds / 2);
         }
+
         public static double DodecahedronCircumradius()
         {
             // Get intermediate values.
             return Math.Sqrt(dd1 * dd1 + dAy * dAy);
         }
+
         public static double DodecahedronInradius()
         {
             return dAy;
@@ -256,11 +250,13 @@ namespace Wpf3dLib
             K = new Point3D(-cx, -y2, cz);
             L = new Point3D(0, -y1, 0);
         }
+
         public static double IcosahedronCircumradius()
         {
             // Get intermediate values.
             return y1;
         }
+        
         public static double IcosahedronInradius()
         {
             return 1.0 / 3.0 * Math.Sqrt(
@@ -292,9 +288,7 @@ namespace Wpf3dLib
         }
 
         // Find the equation of plane through the three points.
-        private static void GetPlaneEquation(
-            out double A, out double B, out double C, out double D,
-            Point3D p1, Point3D p2, Point3D p3)
+        private static void GetPlaneEquation(out double A, out double B, out double C, out double D, Point3D p1, Point3D p2, Point3D p3)
         {
             // Find two vectors in the plane.
             Vector3D v12 = p2 - p1;
@@ -398,9 +392,7 @@ namespace Wpf3dLib
 
         // Initialize points to define a flat surface with a given Y value.
         // Values numX and numZ give the number of points not the number of sections between points.
-        public static Point3D[,] InitSurface(double y,
-            int numX, double xmin, double xmax,
-            int numZ, double zmin, double zmax)
+        public static Point3D[,] InitSurface(double y, int numX, double xmin, double xmax, int numZ, double zmin, double zmax)
         {
             double dx = (xmax - xmin) / (numX - 1);
             double dz = (zmax - zmin) / (numZ - 1);
@@ -418,8 +410,7 @@ namespace Wpf3dLib
         }
 
         // Fractalize the surface by using midpoint displacement.
-        public static Point3D[,] FractalizeSurface(Point3D[,] surface, int iterations,
-            int seed, double minDy, double maxDy)
+        public static Point3D[,] FractalizeSurface(Point3D[,] surface, int iterations, int seed, double minDy, double maxDy)
         {
             // Initialize the random number generator with the seed.
             Random rand;
@@ -504,8 +495,7 @@ namespace Wpf3dLib
         }
 
         // Ensure that the surface's Y coordinates are within the given bounds.
-        public static void LimitY(Point3D[,] surface,
-            double minY = double.MinValue, double maxY = double.MaxValue)
+        public static void LimitY(Point3D[,] surface, double minY = double.MinValue, double maxY = double.MaxValue)
         {
             int numX = surface.GetUpperBound(0) + 1;
             int numZ = surface.GetUpperBound(1) + 1;
@@ -522,6 +512,5 @@ namespace Wpf3dLib
         }
 
         #endregion Surfaces
-
     }
 }

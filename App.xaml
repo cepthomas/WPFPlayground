@@ -17,7 +17,6 @@
             <GradientStop Color="Yellow" Offset="1.0"/>
         </LinearGradientBrush>
 
-
         <!--A Style that affects all TextBlocks-->
         <Style TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center" />

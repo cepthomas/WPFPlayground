@@ -12,6 +12,7 @@ namespace Wpf3dLib
     public class Edge : IEquatable<Edge>, IComparable<Edge>
     {
         public Point3D Point1, Point2;
+
         public Edge(Point3D point1, Point3D point2)
         {
             // Put them in order so Point1 <= Point2.
@@ -19,6 +20,7 @@ namespace Wpf3dLib
                 (point1.X < point2.X) ||
                 ((point1.X == point2.X) && (point1.Y < point2.Y)) ||
                 ((point1.X == point2.X) && (point1.Y == point2.Y) && (point1.Z < point2.Z));
+
             if (p1smaller)
             {
                 Point1 = point1;
@@ -37,16 +39,19 @@ namespace Wpf3dLib
             if ((Point1 == other.Point1) && (Point2 == other.Point2)) return true;
             return false;
         }
+
         public static bool operator ==(Edge edge1, Edge edge2)
         {
             if (ReferenceEquals(edge1, edge2)) return true;
             if ((edge1 is null)) return false;
             return edge1.Equals(edge2);
         }
+
         public static bool operator !=(Edge edge1, Edge edge2)
         {
             return !(edge1 == edge2);
         }
+        
         public override bool Equals(object obj)
         {
             if (obj is not Edge) return false;
