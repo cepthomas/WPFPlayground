@@ -23,9 +23,9 @@ using Wpf3dLib;
 namespace WPFPlayground
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindowView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowView : Window //TODO make others *View?
     {
         readonly DispatcherTimer _slowTimer = new();
         readonly DispatcherTimer _fastTimer = new();
@@ -34,10 +34,10 @@ namespace WPFPlayground
         readonly MyVisualHost _vhd = new();
 
         #region Lifecycle
-        public MainWindow()
+        public MainWindowView()
         {
             InitializeComponent();
-            AddInfoLine($"MainWindow constructor");
+            AddInfoLine($"MainWindowView constructor");
 
             //_settings = new();
 
@@ -128,7 +128,7 @@ namespace WPFPlayground
         #region Event handlers
         void Ellipse_MouseDown(object? sender, MouseButtonEventArgs e)
         {
-            MyViewModel vm = (DataContext as MyViewModel)!;
+            MainWindowViewModel vm = (DataContext as MainWindowViewModel)!;
 
             AddInfoLine($"ellipse1_MouseDown:{vm.MyVal}");
 

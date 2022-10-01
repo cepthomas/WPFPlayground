@@ -28,11 +28,11 @@ namespace WPFPlayground
     {
         enum ThreeDeeType { Garden, Robot }
 
-        readonly Random _rand = new();
-        int _lastTick = Environment.TickCount;
+        //readonly Random _rand = new();
+        //int _lastTick = Environment.TickCount;
 
         // The main model group.
-        Model3DGroup _group;
+        readonly Model3DGroup _group;
 
         // The robot's Model3DGroups.
         Model3DGroup? _groupRobot, _groupHead, _groupNeck, _groupShoulder, _groupBack,
@@ -40,10 +40,10 @@ namespace WPFPlayground
             _groupLeftUpperLeg, _groupRightUpperLeg, _groupLeftLowerLeg, _groupRightLowerLeg;
 
         // The camera.
-        PerspectiveCamera _camera;
+        readonly PerspectiveCamera _camera;
 
         // The camera controller.
-        SphericalCameraController _cameraController;
+        readonly SphericalCameraController _cameraController;
 
         // Where the resources be.
         string _resDir = "";
@@ -67,7 +67,7 @@ namespace WPFPlayground
             _resDir = System.IO.Path.Combine(Utils.GetSourcePath(), "Resources");
 
             // Define WPF objects.
-            ModelVisual3D visual3d = new ModelVisual3D();
+            ModelVisual3D visual3d = new();
             visual3d.Content = _group;
             mainViewport.Children.Add(visual3d);
 
@@ -358,7 +358,7 @@ namespace WPFPlayground
             const double dx = 15;
             const double dy = 1;
             const double dz = dx;
-            Point3D corner = new Point3D(-dx / 2, groundY - dy, -dz / 2);
+            Point3D corner = new(-dx / 2, groundY - dy, -dz / 2);
             groundMesh.AddBoxWrapped(corner, D3.XVector(dx), D3.YVector(dy), D3.ZVector(dz));
 
             Point[] topCoords =

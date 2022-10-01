@@ -9,35 +9,24 @@ using System.Windows.Input;
 
 namespace WPFPlayground
 {
-    public class MyViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         /// Commands
-        public ICommand ChangeText { get; set; }
-        public ICommand ChangeColor { get; set; }
+        public ICommand ChangeText { get; }
+
+        public ICommand ChangeColor { get; }
 
         /// Properties.
         string _color = "LightGreen";
-        public string MyColor
-        {
-            get => _color;
-            set => SetField(ref _color, value);
-        }
+        public string MyColor { get => _color; set => SetField(ref _color, value); }
 
         string _string = "Nada";
-        public string MyString
-        {
-            get => _string;
-            set => SetField(ref _string, value);
-        }
+        public string MyString { get => _string; set => SetField(ref _string, value); }
 
         int _val = 9;
-        public int MyVal
-        {
-            get => _val;
-            set => SetField(ref _val, value);
-        }
+        public int MyVal { get => _val; set => SetField(ref _val, value); }
 
-        public MyViewModel()
+        public MainWindowViewModel()
         {
             /////// Internal fields.
             int _stringIndex = 0;
@@ -45,25 +34,26 @@ namespace WPFPlayground
             string[] colors = { "LightSalmon", "LightBlue", "Yellow", "LightGreen" };
 
             ////// Init command handlers.
+
             ChangeText = new RelayCommand(
-                predicate =>
+                canExecute =>
                 {
                     return true;
                 },
-                action =>
+                execute =>
                 {
                     _stringIndex++;
-                    MyString = "Hey, you Clicked me " + _stringIndex.ToString();
+                    MyString = $"Hey, you Clicked me {++_stringIndex}";
                 });
 
             ChangeColor = new RelayCommand(
-                predicate =>
+                canExecute =>
                 {
                     return true;
                 },
-                action =>
+                execute =>
                 {
-                    MyColor = colors[_colorIndex % colors.Count()];
+                    MyColor = colors[_colorIndex % colors.Length];
                     _colorIndex++;
                 });
         }

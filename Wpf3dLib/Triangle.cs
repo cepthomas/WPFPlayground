@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Windows.Media.Media3D;
+
 
 namespace Wpf3dLib
 {
@@ -27,7 +27,7 @@ namespace Wpf3dLib
             Vector3D vBC = (Points[2] - Points[1]) / numRows;
 
             // Use vector arithmetic to create the points.
-            List<Triangle> triangles = new List<Triangle>();
+            List<Triangle> triangles = new();
             for (int row = 0; row < numRows; row++)
             {
                 for (int col = 0; col <= row; col++)
@@ -59,7 +59,7 @@ namespace Wpf3dLib
         public List<double> Angles()
         {
             int numPoints = Points.Count;
-            List<double> angles = new List<double>();
+            List<double> angles = new();
             for (int i = 0; i < numPoints; i++)
             {
                 int i1 = (i + 1) % numPoints;

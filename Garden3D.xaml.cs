@@ -26,17 +26,17 @@ namespace WPFPlayground
     /// </summary>
     public partial class Garden3D : Window
     {
-        readonly Random _rand = new();
-        int _lastTick = Environment.TickCount;
+        //readonly Random _rand = new();
+        //int _lastTick = Environment.TickCount;
 
         // The main model group.
-        Model3DGroup _group;
+        readonly Model3DGroup _group;
 
         // The camera.
-        PerspectiveCamera _camera;
+        readonly PerspectiveCamera _camera;
 
         // The camera controller.
-        SphericalCameraController _cameraController;
+        readonly SphericalCameraController _cameraController;
 
         // Where the resources be.
         string _resDir = "";
@@ -52,7 +52,7 @@ namespace WPFPlayground
 
             // Define the camera.
             _camera = new() { FieldOfView = 60 };
-            _cameraController = new SphericalCameraController(_camera, mainViewport, this, mainGrid, mainGrid);
+            _cameraController = new(_camera, mainViewport, this, mainGrid, mainGrid);
         }
 
         void Window_Loaded(object sender, RoutedEventArgs e)
@@ -109,7 +109,7 @@ namespace WPFPlayground
             _group.Children.Add(rockModel);
 
             // Grass sections.
-            MeshGeometry3D grassMesh = new MeshGeometry3D();
+            MeshGeometry3D grassMesh = new();
             AddRectangle(grassMesh,
                 new Point3D(-3, 0, -3),
                 new Point3D(-3, 0, -1),
@@ -131,131 +131,131 @@ namespace WPFPlayground
                 new Point3D(+3, 0, +3),
                 new Point3D(+3, 0, +1));
 
-            ImageBrush grassBrush = new ImageBrush();
+            ImageBrush grassBrush = new();
             grassBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"grass.jpg"), UriKind.Relative));
             Material grassMaterial = new DiffuseMaterial(grassBrush);
-            GeometryModel3D grassModel = new GeometryModel3D(grassMesh, grassMaterial);
+            GeometryModel3D grassModel = new(grassMesh, grassMaterial);
             _group.Children.Add(grassModel);
 
             // Water.
-            MeshGeometry3D waterMesh = new MeshGeometry3D();
+            MeshGeometry3D waterMesh = new();
             AddRectangle(waterMesh,
                 new Point3D(-1, 0, -1),
                 new Point3D(-1, 0, +1),
                 new Point3D(+1, 0, +1),
                 new Point3D(+1, 0, -1));
-            ImageBrush waterBrush = new ImageBrush();
+            ImageBrush waterBrush = new();
             waterBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"water.jpg"), UriKind.Relative));
             Material waterMaterial = new DiffuseMaterial(waterBrush);
-            GeometryModel3D waterModel = new GeometryModel3D(waterMesh, waterMaterial);
+            GeometryModel3D waterModel = new(waterMesh, waterMaterial);
             _group.Children.Add(waterModel);
 
             // Cube brick face.
-            MeshGeometry3D brickMesh = new MeshGeometry3D();
+            MeshGeometry3D brickMesh = new();
             AddRectangle(brickMesh,
                 new Point3D(-1, 2, -1),
                 new Point3D(-1, 0, -1),
                 new Point3D(+1, 0, -1),
                 new Point3D(+1, 2, -1));
-            ImageBrush brickBrush = new ImageBrush();
+            ImageBrush brickBrush = new();
             brickBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"bricks.jpg"), UriKind.Relative));
             Material brickMaterial = new DiffuseMaterial(brickBrush);
-            GeometryModel3D brickModel = new GeometryModel3D(brickMesh, brickMaterial);
+            GeometryModel3D brickModel = new(brickMesh, brickMaterial);
             _group.Children.Add(brickModel);
 
             // Cube metal face.
-            MeshGeometry3D metalMesh = new MeshGeometry3D();
+            MeshGeometry3D metalMesh = new();
             AddRectangle(metalMesh,
                 new Point3D(+1, 2, -1),
                 new Point3D(+1, 0, -1),
                 new Point3D(+1, 0, -3),
                 new Point3D(+1, 2, -3));
-            ImageBrush metalBrush = new ImageBrush();
+            ImageBrush metalBrush = new();
             metalBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"metal.jpg"), UriKind.Relative));
             Material metalMaterial = new DiffuseMaterial(metalBrush);
-            GeometryModel3D metalModel = new GeometryModel3D(metalMesh, metalMaterial);
+            GeometryModel3D metalModel = new(metalMesh, metalMaterial);
             _group.Children.Add(metalModel);
 
             // Cube wood face.
-            MeshGeometry3D woodMesh = new MeshGeometry3D();
+            MeshGeometry3D woodMesh = new();
             AddRectangle(woodMesh,
                 new Point3D(-1, 2, -3),
                 new Point3D(-1, 2, -1),
                 new Point3D(+1, 2, -1),
                 new Point3D(+1, 2, -3));
-            ImageBrush woodBrush = new ImageBrush();
+            ImageBrush woodBrush = new();
             woodBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"wood.jpg"), UriKind.Relative));
             Material woodMaterial = new DiffuseMaterial(woodBrush);
-            GeometryModel3D woodModel = new GeometryModel3D(woodMesh, woodMaterial);
+            GeometryModel3D woodModel = new(woodMesh, woodMaterial);
             _group.Children.Add(woodModel);
 
             // Cube fire face.
-            MeshGeometry3D fireMesh = new MeshGeometry3D();
+            MeshGeometry3D fireMesh = new();
             AddRectangle(fireMesh,
                 new Point3D(-1, 2, -3),
                 new Point3D(-1, 0, -3),
                 new Point3D(-1, 0, -1),
                 new Point3D(-1, 2, -1));
-            ImageBrush fireBrush = new ImageBrush();
+            ImageBrush fireBrush = new();
             fireBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"fire.jpg"), UriKind.Relative));
             Material fireMaterial = new DiffuseMaterial(fireBrush);
-            GeometryModel3D fireModel = new GeometryModel3D(fireMesh, fireMaterial);
+            GeometryModel3D fireModel = new(fireMesh, fireMaterial);
             _group.Children.Add(fireModel);
 
             // Cube cloth face.
-            MeshGeometry3D clothMesh = new MeshGeometry3D();
+            MeshGeometry3D clothMesh = new();
             AddRectangle(clothMesh,
                 new Point3D(+1, 2, -3),
                 new Point3D(+1, 0, -3),
                 new Point3D(-1, 0, -3),
                 new Point3D(-1, 2, -3));
-            ImageBrush clothBrush = new ImageBrush();
+            ImageBrush clothBrush = new();
             clothBrush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"cloth.jpg"), UriKind.Relative));
             Material clothMaterial = new DiffuseMaterial(clothBrush);
-            GeometryModel3D clothModel = new GeometryModel3D(clothMesh, clothMaterial);
+            GeometryModel3D clothModel = new(clothMesh, clothMaterial);
             _group.Children.Add(clothModel);
 
             // Skybox meshes.
-            MeshGeometry3D sky1Mesh = new MeshGeometry3D();
+            MeshGeometry3D sky1Mesh = new();
             AddRectangle(sky1Mesh,
                 new Point3D(-6, +7, +6),
                 new Point3D(-6, -5, +6),
                 new Point3D(-6, -5, -6),
                 new Point3D(-6, +7, -6));
-            ImageBrush sky1Brush = new ImageBrush();
+            ImageBrush sky1Brush = new();
             sky1Brush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"clouds.jpg"), UriKind.Relative));
-            MaterialGroup sky1Group = new MaterialGroup();
+            MaterialGroup sky1Group = new();
             sky1Group.Children.Add(new DiffuseMaterial(sky1Brush));
             sky1Group.Children.Add(new EmissiveMaterial(new SolidColorBrush(
                 Color.FromArgb(255, 128, 128, 128))));
-            GeometryModel3D sky1Model = new GeometryModel3D(sky1Mesh, sky1Group);
+            GeometryModel3D sky1Model = new(sky1Mesh, sky1Group);
             _group.Children.Add(sky1Model);
 
-            MeshGeometry3D sky2Mesh = new MeshGeometry3D();
+            MeshGeometry3D sky2Mesh = new();
             AddRectangle(sky2Mesh,
                 new Point3D(-6, +7, -6),
                 new Point3D(-6, -5, -6),
                 new Point3D(+6, -5, -6),
                 new Point3D(+6, +7, -6));
-            ImageBrush sky2Brush = new ImageBrush();
+            ImageBrush sky2Brush = new();
             sky2Brush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"clouds.jpg"), UriKind.Relative));
-            MaterialGroup sky2Group = new MaterialGroup();
+            MaterialGroup sky2Group = new();
             sky2Group.Children.Add(new DiffuseMaterial(sky2Brush));
             sky2Group.Children.Add(new EmissiveMaterial(new SolidColorBrush(
                 Color.FromArgb(255, 64, 64, 64))));
-            GeometryModel3D sky2Model = new GeometryModel3D(sky2Mesh, sky2Group);
+            GeometryModel3D sky2Model = new(sky2Mesh, sky2Group);
             _group.Children.Add(sky2Model);
 
-            MeshGeometry3D sky3Mesh = new MeshGeometry3D();
+            MeshGeometry3D sky3Mesh = new();
             AddRectangle(sky3Mesh,
                 new Point3D(-6, -5, +6),
                 new Point3D(+6, -5, +6),
                 new Point3D(+6, -5, -6),
                 new Point3D(-6, -5, -6));
-            ImageBrush sky3Brush = new ImageBrush();
+            ImageBrush sky3Brush = new();
             sky3Brush.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(_resDir, @"clouds.jpg"), UriKind.Relative));
             Material sky3Material = new DiffuseMaterial(sky3Brush);
-            GeometryModel3D sky3Model = new GeometryModel3D(sky3Mesh, sky3Material);
+            GeometryModel3D sky3Model = new(sky3Mesh, sky3Material);
             _group.Children.Add(sky3Model);
         }
 

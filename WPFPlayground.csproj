@@ -7,6 +7,21 @@
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <StartupObject>WPFPlayground.App</StartupObject>
+
+        <Version>$([System.DateTime]::UtcNow.ToString(yy.MM.dd))</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Description>WPF Playground</Description>
+        <Copyright>MIT License</Copyright>
+        <RootNamespace>WPFPlayground</RootNamespace>
+        <AssemblyName>WPFPlayground</AssemblyName>
+        <OutputPath>bin\</OutputPath>
+        <!-- <DefineConstants>DEBUG;TRACE</DefineConstants> -->
+        <WarningLevel>4</WarningLevel>
+        <NoWarn>CA1822;IDE0017;IDE1006;IDE0090</NoWarn>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+        <!-- en none -->
+
     </PropertyGroup>
 
     <ItemGroup>

@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace WPFPlayground
 {
     /// <summary>
-    /// A static drawing space with user input.
+    /// A static drawing space with user input. Used in MainWindow.
     /// </summary>
     public class MyVisualHostStaticHitTest : FrameworkElement
     {
@@ -16,7 +16,7 @@ namespace WPFPlayground
         protected override int VisualChildrenCount => _children.Count;
 
         /// Create a collection of child visual objects.
-        VisualCollection _children;
+        readonly VisualCollection _children;
         double _width = 0;
         double _height = 0;
 
@@ -65,13 +65,13 @@ namespace WPFPlayground
         /// Create a DrawingVisual that contains a rectangle.
         private DrawingVisual CreateDrawingVisualRectangle()
         {
-            DrawingVisual drawingVisual = new DrawingVisual();
+            DrawingVisual drawingVisual = new();
 
             // Retrieve the DrawingContext in order to create new drawing content.
             DrawingContext drawingContext = drawingVisual.RenderOpen();
 
             // Create a rectangle and draw it in the DrawingContext.
-            Rect rect = new Rect(new Point(10, 10), new Size(_width - 50, _height - 80));
+            Rect rect = new(new Point(10, 10), new Size(_width - 50, _height - 80));
             drawingContext.DrawRectangle(Brushes.LightBlue, null, rect);
 
             // Close the DrawingContext to persist changes to the DrawingVisual.
@@ -84,7 +84,7 @@ namespace WPFPlayground
         private DrawingVisual CreateDrawingVisualText()
         {
             // Create an instance of a DrawingVisual.
-            DrawingVisual drawingVisual = new DrawingVisual();
+            DrawingVisual drawingVisual = new();
 
             // Retrieve the DrawingContext from the DrawingVisual.
             DrawingContext drawingContext = drawingVisual.RenderOpen();
@@ -107,7 +107,7 @@ namespace WPFPlayground
         /// Create a DrawingVisual that contains an ellipse.
         private DrawingVisual CreateDrawingVisualEllipses()
         {
-            DrawingVisual drawingVisual = new DrawingVisual();
+            DrawingVisual drawingVisual = new();
             DrawingContext drawingContext = drawingVisual.RenderOpen();
 
             drawingContext.DrawEllipse(Brushes.Maroon, null, new Point(_width - 40, _height / 2), 20, 20);
@@ -123,7 +123,7 @@ namespace WPFPlayground
         {
             if (index < 0 || index >= _children.Count)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             return _children[index];

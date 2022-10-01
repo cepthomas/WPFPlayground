@@ -5,16 +5,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
+
 namespace WPFPlayground
 {
     /// <summary>
-    /// A dynamic drawing space.
+    /// A dynamic drawing space. Used in MainWindow.
     /// </summary>
     public class MyVisualHost : FrameworkElement
     {
         // Create a collection of child visual objects.
         readonly VisualCollection _children;
-        Random _rand = new();
+        readonly Random _rand = new();
 
         public MyVisualHost()
         {
@@ -53,7 +54,7 @@ namespace WPFPlayground
         void MyVisualHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // Retreive the coordinates of the mouse button event.
-            Point pt = e.GetPosition((UIElement)sender);
+            //x Point pt = e.GetPosition((UIElement)sender);
         }
 
         // Provide a required override for the VisualChildrenCount property.
@@ -64,7 +65,7 @@ namespace WPFPlayground
         {
             if (index < 0 || index >= _children.Count)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             return _children[index];
