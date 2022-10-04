@@ -23,9 +23,9 @@ using Wpf3dLib;
 namespace WPFPlayground
 {
     /// <summary>
-    /// Interaction logic for MainWindowView.xaml
+    /// Interaction logic for MainWindowView.xaml. This makes a decent example of MVVM.
     /// </summary>
-    public partial class MainWindowView : Window //TODO make others *View?
+    public partial class MainWindowView : Window
     {
         readonly DispatcherTimer _slowTimer = new();
         readonly DispatcherTimer _fastTimer = new();
