@@ -20,10 +20,11 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Wpf3dLib;
 
+
 namespace WPFPlayground
 {
     /// <summary>
-    /// Interaction logic for MainWindowView.xaml. This makes a decent example of MVVM.
+    /// Interaction logic for MainWindowView.xaml.
     /// </summary>
     public partial class MainWindowView : Window
     {

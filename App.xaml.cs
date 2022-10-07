@@ -13,5 +13,15 @@ namespace WPFPlayground
     /// </summary>
     public partial class App : Application
     {
+
+        // Now bind on application startup.
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var window = new MainWindowView();
+            var VM = new MainWindowViewModel();
+            window.DataContext = VM;
+            window.Show();
+        }
     }
 }
