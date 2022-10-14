@@ -1,8 +1,8 @@
 ﻿<Application x:Class="WPFPlayground.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindowView.xaml"
              >
-    <!--              StartupUri="MainWindowView.xaml" -->
     <!-- StartupUri= MyAnimation Garden3D Robot3D MainWindowView -->
              
     <Application.Resources>

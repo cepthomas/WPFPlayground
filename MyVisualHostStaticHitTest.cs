@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace WPFPlayground
+namespace Ephemera.WPFPlayground
 {
     /// <summary>
     /// A static drawing space with user input. Used in MainWindow.

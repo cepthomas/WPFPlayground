@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace WPFPlayground
+namespace Ephemera.WPFPlayground
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -14,14 +14,14 @@ namespace WPFPlayground
     public partial class App : Application
     {
 
-        // Now bind on application startup.
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-            var window = new MainWindowView();
-            var VM = new MainWindowViewModel();
-            window.DataContext = VM;
-            window.Show();
-        }
+        //// Now bind on application startup.
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    base.OnStartup(e);
+        //    var window = new MainWindowView();
+        //    var VM = new MainWindowViewModel();
+        //    window.DataContext = VM;
+        //    window.Show();
+        //}
     }
 }

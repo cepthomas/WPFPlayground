@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 
-namespace Wpf3dLib
+namespace Ephemera.Wpf3dLib
 {
     // Hold three points that make up a triangle.
     public class Triangle

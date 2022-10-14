@@ -17,10 +17,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf3dLib;
+using Ephemera.Wpf3dLib;
 
 
-namespace WPFPlayground
+namespace Ephemera.WPFPlayground
 {
     /// <summary>
     /// Interaction logic for Robot3D.xaml

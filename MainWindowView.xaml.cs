@@ -18,10 +18,10 @@ using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Wpf3dLib;
+using Ephemera.Wpf3dLib;
 
 
-namespace WPFPlayground
+namespace Ephemera.WPFPlayground
 {
     /// <summary>
     /// Interaction logic for MainWindowView.xaml.

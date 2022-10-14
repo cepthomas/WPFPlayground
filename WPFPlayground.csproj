@@ -12,8 +12,8 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Description>WPF Playground</Description>
         <Copyright>MIT License</Copyright>
-        <RootNamespace>WPFPlayground</RootNamespace>
-        <AssemblyName>WPFPlayground</AssemblyName>
+        <RootNamespace>Ephemera.WPFPlayground</RootNamespace>
+        <AssemblyName>Ephemera.WPFPlayground</AssemblyName>
         <OutputPath>bin\</OutputPath>
         <!-- <DefineConstants>DEBUG;TRACE</DefineConstants> -->
         <WarningLevel>4</WarningLevel>
@@ -21,7 +21,6 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
         <!-- en none -->
-
     </PropertyGroup>
 
     <ItemGroup>

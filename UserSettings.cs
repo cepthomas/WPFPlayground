@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows;
 
 
-namespace WPFPlayground
+namespace Ephemera.WPFPlayground
 {
     [Serializable]
     public sealed class UserSettings
