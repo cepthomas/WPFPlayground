@@ -23,5 +23,10 @@ namespace Ephemera.WPFPlayground
         //    window.DataContext = VM;
         //    window.Show();
         //}
+
+        // WinForms???
+        // Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        // Application.EnableVisualStyles();
+        // Application.SetCompatibleTextRenderingDefault(false);
     }
 }
