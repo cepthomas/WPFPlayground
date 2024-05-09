@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows;
 
 
-namespace Ephemera.Wpf3dLib
+namespace Wpf3dLib
 {
     public static class MeshExtensions
     {

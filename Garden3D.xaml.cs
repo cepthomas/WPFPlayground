@@ -17,10 +17,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Ephemera.Wpf3dLib;
+using Wpf3dLib;
 
 
-namespace Ephemera.WPFPlayground
+namespace WPFPlayground
 {
     /// <summary>
     /// Interaction logic for Garden3D.xaml

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 
-namespace Ephemera.WPFPlayground
+namespace WPFPlayground
 {
     /// <summary>
     /// Common stuff for MV.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 
-namespace Ephemera.Wpf3dLib
+namespace Wpf3dLib
 {
     // Hold points that make up a polygon.
     public class Polygon

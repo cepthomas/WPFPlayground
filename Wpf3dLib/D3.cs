@@ -8,7 +8,7 @@ using System.Windows.Media.Media3D;
 
 
 // Miscellaneous 3D extensions.
-namespace Ephemera.Wpf3dLib
+namespace Wpf3dLib
 {
     public static class D3
     {

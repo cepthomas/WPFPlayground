@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Ephemera.Wpf3dLib
+namespace Wpf3dLib
 {
     public static class RandomExtensions
     {

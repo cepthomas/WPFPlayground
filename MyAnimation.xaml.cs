@@ -13,7 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Ephemera.WPFPlayground
+namespace WPFPlayground
 {
     /// <summary>
     /// Interaction logic for MyAnimation.xaml.

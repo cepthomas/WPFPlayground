@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 
-namespace Ephemera.Wpf3dLib
+namespace Wpf3dLib
 {
     public static class G3
     {

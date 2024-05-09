@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace Ephemera.WPFPlayground
+namespace WPFPlayground
 {
     public class Utils
     {

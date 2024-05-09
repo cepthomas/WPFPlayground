@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Media3D;
 
 
-namespace Ephemera.Wpf3dLib
+namespace Wpf3dLib
 {
     public class SphericalCameraController
     {

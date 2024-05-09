@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 
-namespace Ephemera.Wpf3dLib
+namespace Wpf3dLib
 {
     // An object to prevent duplicate wireframe edges.
     public class Edge : IEquatable<Edge>, IComparable<Edge>

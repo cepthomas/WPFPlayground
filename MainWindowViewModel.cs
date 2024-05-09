@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Ephemera.WPFPlayground
+namespace .WPFPlayground
 {
     public class MainWindowViewModel : ViewModelBase
     {

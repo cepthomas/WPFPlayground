@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace Ephemera.WPFPlayground
+namespace WPFPlayground
 {
     /// <summary>
     /// A dynamic drawing space. Used in MainWindow.
