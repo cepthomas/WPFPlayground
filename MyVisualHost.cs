@@ -43,7 +43,7 @@ namespace WPFPlayground
             context.Close();
 
             _children.Add(vis);
-            if(_children.Count > NUM_DOTS)
+            if (_children.Count > NUM_DOTS)
             {
                 _children.RemoveRange(0, NUM_DOTS / 20);
             }
@@ -65,7 +65,7 @@ namespace WPFPlayground
         {
             if (index < 0 || index >= _children.Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentOutOfRangeException($"invalid:{index}");
             }
 
             return _children[index];

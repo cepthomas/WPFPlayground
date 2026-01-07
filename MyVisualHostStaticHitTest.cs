@@ -123,7 +123,7 @@ namespace WPFPlayground
         {
             if (index < 0 || index >= _children.Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentOutOfRangeException($"invalid:{index}");
             }
 
             return _children[index];
