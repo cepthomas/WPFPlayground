@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="WPFPlayground.csproj" />
+  <Project Path="Wpf3dLib/Wpf3dLib.csproj" />
+</Solution>
